@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Bolão Bar do Teco</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#0c1017;--card:#151b28;--card2:#1c2333;--border:#252d3d;--gold:#e8a838;--gold-dim:#c48a20;--gold-bg:rgba(232,168,56,.08);--green:#34c759;--green-bg:rgba(52,199,89,.08);--red:#ff6b6b;--blue:#5b9cf5;--t1:#f0ede8;--t2:#a8a29e;--t3:#68635e;--r:16px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);max-width:480px;margin:0 auto;min-height:100vh;-webkit-font-smoothing:antialiased}
+.scr{display:none;min-height:100vh;flex-direction:column}.scr.on{display:flex}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fi{animation:fadeUp .4s ease-out both}
+
+/* Login */
+#SL{justify-content:center;align-items:center;padding:40px 28px;background:radial-gradient(ellipse at 50% 30%,#1a2030 0%,var(--bg) 70%)}
+.login-logo{width:140px;height:140px;border-radius:50%;border:3px solid var(--gold);margin-bottom:28px;box-shadow:0 0 40px rgba(232,168,56,.12)}
+.l-pre{font-size:14px;color:var(--t3);letter-spacing:4px;text-transform:uppercase;font-weight:600;margin-bottom:6px}
+.l-title{font-family:'Playfair Display',serif;font-size:28px;margin-bottom:4px}.l-title span{color:var(--gold)}
+.l-sub{font-size:13px;color:var(--t3);margin-bottom:32px;text-align:center}
+.l-form{width:100%;max-width:340px}
+.lbl{font-size:11px;color:var(--t3);margin-bottom:6px;display:block;letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+.inp{width:100%;padding:14px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:16px;font-family:inherit;outline:none;margin-bottom:14px;transition:border .2s}
+.inp:focus{border-color:var(--gold)}.inp::placeholder{color:var(--t3)}
+.btn{width:100%;padding:15px;background:var(--gold);color:var(--bg);border:none;border-radius:var(--r);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;letter-spacing:.5px;transition:opacity .15s}
+.btn:active{opacity:.85}.btn:disabled{opacity:.5;cursor:default}
+.btn-outline{background:transparent;color:var(--t1);border:1.5px solid var(--border)}.btn-outline:active{background:var(--card)}
+.btn-sm{padding:10px 16px;font-size:13px;width:auto;border-radius:10px}
+.l-link{text-align:center;margin-top:20px;font-size:14px;color:var(--t3)}.l-link a{color:var(--gold);text-decoration:none;font-weight:600;cursor:pointer}
+.l-foot{position:absolute;bottom:24px;font-size:12px;color:var(--t3);text-align:center;letter-spacing:.5px;opacity:.5}
+
+/* Header */
+.header{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.h-pre{font-size:10px;color:var(--t3);letter-spacing:3px;text-transform:uppercase;font-weight:600}
+.h-title{font-size:20px;font-weight:800;color:var(--gold)}
+.h-greet{font-size:13px;color:var(--t2);margin-top:2px}
+.h-prize{background:var(--green-bg);border:1px solid rgba(52,199,89,.15);border-radius:12px;padding:6px 14px;text-align:center}
+.h-prize span{display:block;font-size:10px;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+.h-prize strong{font-size:20px;font-weight:800;color:var(--green)}
+
+/* Section */
+.sec{padding:14px 20px}.sec-t{font-size:11px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}.sec-t::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Status */
+.status{margin:0 20px 12px;padding:10px 16px;background:var(--green-bg);border:1px solid rgba(52,199,89,.12);border-radius:12px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--green)}
+.status-closed{background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.12);color:var(--red)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Games */
+.game{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin:0 20px 8px}
+.game-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:10px;font-weight:500}
+.game-teams{display:flex;align-items:center;justify-content:center}
+.g-t{display:flex;align-items:center;gap:8px;flex:1}.g-t.h{justify-content:flex-end}
+.g-n{font-size:14px;font-weight:600}
+.g-sc{display:flex;align-items:center;gap:6px;margin:0 10px}
+.g-in{width:40px;height:40px;text-align:center;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;color:var(--gold);font-size:18px;font-weight:700;font-family:inherit;outline:none;padding:0}
+.g-in:focus{border-color:var(--gold)}
+.g-vs{color:var(--t3);font-size:12px;font-weight:700}
+
+/* Buttons area */
+.btn-area{padding:16px 20px}
+
+/* Ranking */
+.podium{display:flex;justify-content:center;gap:14px;padding:16px 20px}
+.pod{text-align:center;flex:1}.pod.side{margin-top:24px}
+.pod-ava{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:22px;border:2px solid var(--border)}
+.pod.first .pod-ava{width:64px;height:64px;font-size:26px;border-color:var(--gold);box-shadow:0 0 20px rgba(232,168,56,.15)}
+.pod-nm{font-size:14px;font-weight:700}.pod-dt{font-size:11px;color:var(--t3);margin:2px 0}
+.pod-pt{font-size:20px;font-weight:800;color:var(--gold)}.pod-pt span{font-size:11px;font-weight:400;color:var(--t2)}
+.rank-item{display:flex;align-items:center;padding:12px 14px;margin:0 20px 4px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+.rk-pos{width:28px;font-size:14px;font-weight:700;color:var(--t3);text-align:center}
+.rk-nm{flex:1;margin-left:8px;font-size:14px;font-weight:600}
+.rk-ct{font-size:11px;color:var(--t3);margin-left:6px;font-weight:500}
+.rk-pts{font-size:16px;font-weight:800;color:var(--gold)}.rk-pts span{font-size:10px;color:var(--t2);font-weight:400}
+.prize-box{margin:16px 20px;padding:20px;background:var(--green-bg);border:1px solid rgba(52,199,89,.12);border-radius:var(--r);text-align:center}
+.prize-box .lb{font-size:12px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.prize-box .am{font-size:32px;font-weight:800;color:var(--green);margin:4px 0}
+.prize-box .dt{font-size:13px;color:var(--t2)}
+.parcial{text-align:center;margin:10px 20px;font-size:13px;color:var(--blue);font-weight:500}
+
+/* Histórico */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 20px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center}
+.stat-v{font-size:20px;font-weight:800;color:var(--gold);margin:4px 0 2px}.stat-l{font-size:11px;color:var(--t3);font-weight:500}
+.hist{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin:0 20px 8px}
+.hist-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hist-rnd{font-size:12px;font-weight:700;color:var(--gold);background:var(--gold-bg);padding:3px 10px;border-radius:8px}
+.hist-dt{font-size:12px;color:var(--t3);margin-left:8px}.hist-pr{font-size:14px;font-weight:700;color:var(--green)}
+.hist-win{display:flex;align-items:center;gap:6px;margin-bottom:4px}.hist-wn{font-size:15px;font-weight:700}.hist-wp{font-size:13px;color:var(--gold);font-weight:600}
+.hist-meta{display:flex;gap:14px;font-size:11px;color:var(--t3);font-weight:500}
+
+/* Notícias */
+.news{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin:0 20px 8px}
+.news-cat{font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:6px;border:1px solid;display:inline-block;margin-bottom:8px}
+.news-src{font-size:11px;color:var(--t3);margin-left:8px;font-weight:500}
+.news-ttl{font-size:15px;font-weight:600;line-height:1.45}
+
+/* Gestão */
+.gest{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin:0 20px 8px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .15s}
+.gest:active{border-color:var(--gold-dim)}
+.gest-ic{font-size:22px;width:36px;text-align:center}.gest-info{flex:1}.gest-info h3{font-size:14px;font-weight:700;margin-bottom:1px}.gest-info p{font-size:12px;color:var(--t3)}
+.gest-badge{font-size:12px;font-weight:700;color:var(--red);background:rgba(255,107,107,.1);padding:2px 10px;border-radius:8px}.gest-arr{color:var(--t3);font-size:16px}
+
+/* Sub panels */
+.panel{display:none;padding:16px 20px}.panel.on{display:block}
+.panel-back{font-size:13px;color:var(--gold);cursor:pointer;margin-bottom:14px;font-weight:600;display:inline-block}
+
+/* Nav */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,16,23,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 0 env(safe-area-inset-bottom,10px);z-index:100;max-width:480px;margin:0 auto}
+.nb{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;opacity:.4;transition:opacity .15s}
+.nb.on{opacity:1}.nb .ni{font-size:18px}.nb .nl{font-size:10px;font-weight:600;color:var(--t2);letter-spacing:.3px}
+.nb.on .nl{color:var(--gold)}
+body.no-nav .bnav{display:none}
+
+/* Top bar */
+.tbar{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.tbar .bk{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--t1);font-size:16px;cursor:pointer;padding:8px 12px;font-family:inherit;font-weight:600}
+.tbar h1{font-size:18px;font-weight:800;flex:1}
+
+/* Utils */
+.pb80{padding-bottom:80px}
+.msg{font-size:13px;color:var(--t3);text-align:center;padding:0 20px;line-height:1.6;margin:8px 0 12px;font-style:italic}
+.foot{font-size:11px;color:var(--t3);text-align:center;padding:20px;opacity:.5;letter-spacing:1px;font-weight:600}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;font-weight:600;z-index:200;box-shadow:0 8px 30px rgba(0,0,0,.4);display:none;max-width:90%;text-align:center}
+.toast.ok{border-color:rgba(52,199,89,.3);color:var(--green)}
+.toast.err{border-color:rgba(255,107,107,.3);color:var(--red)}
+.toast.show{display:block;animation:fadeUp .3s ease-out}
+.loading-overlay{position:fixed;inset:0;background:rgba(12,16,23,.7);display:none;align-items:center;justify-content:center;z-index:150;backdrop-filter:blur(4px)}
+.loading-overlay.show{display:flex}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:40px 20px;color:var(--t3);font-size:14px}
+.cartela-sel{display:flex;gap:8px;align-items:center;padding:0 20px;margin-bottom:12px}
+.cartela-sel span{font-size:13px;color:var(--t3)}
+.cart-btn{padding:8px 14px;border-radius:10px;background:var(--card);border:1.5px solid var(--border);color:var(--t2);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.cart-btn.on{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+</style>
+</head>
+<body class="no-nav">
+
+<div class="loading-overlay" id="loader"><div class="spinner"></div></div>
+<div class="toast" id="toast"></div>
+
+<!-- ===== LOGIN ===== -->
+<div id="SL" class="scr on">
+<img class="login-logo" src="data:image/jpeg;base64,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" alt="Bar do Teco">
+<div class="l-pre">Bolão dos Amigos</div>
+<div class="l-sub" style="margin-top:8px">Celebramos a amizade desde 1985</div>
+<div class="l-form" id="frmLogin">
+  <label class="lbl">Celular</label>
+  <input class="inp" id="inCel" placeholder="(21) 99999-9999" inputmode="tel">
+  <label class="lbl">Senha</label>
+  <div style="position:relative"><input class="inp" id="inSen" placeholder="Sua senha" type="password" style="padding-right:48px"><button type="button" onclick="togglePwd('inSen',this)" style="position:absolute;right:12px;top:14px;background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer">👁</button></div>
+  <button class="btn" onclick="doLogin()">Entrar</button>
+  <div class="l-link">Primeiro acesso? <a onclick="showEl('frmLogin',false);showEl('frmCad',true)">Pede pra entrar</a></div>
+  <div class="l-link" style="margin-top:8px"><a onclick="showEl('frmLogin',false);showEl('frmRecup',true)">Esqueci minha senha</a></div>
+</div>
+<div class="l-form" id="frmRecup" style="display:none">
+  <div style="font-size:15px;font-weight:600;margin-bottom:14px;text-align:center">Recuperar Senha</div>
+  <div style="font-size:12px;color:var(--t3);margin-bottom:14px;text-align:center">Confirme seus dados para criar uma nova senha</div>
+  <label class="lbl">Celular</label><input class="inp" id="recCel" placeholder="(21) 99999-9999" inputmode="tel">
+  <label class="lbl">Time que torce</label><input class="inp" id="recTime" placeholder="Ex: Flamengo">
+  <label class="lbl">Data de nascimento</label><input class="inp" id="recNasc" type="date">
+  <label class="lbl">Nova senha</label><div style="position:relative"><input class="inp" id="recSen" placeholder="Nova senha" type="password" style="padding-right:48px"><button type="button" onclick="togglePwd('recSen',this)" style="position:absolute;right:12px;top:14px;background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer">👁</button></div>
+  <button class="btn" onclick="recuperarSenha()">Redefinir Senha</button>
+  <div class="l-link" style="margin-top:12px"><a onclick="showEl('frmRecup',false);showEl('frmLogin',true)">← Voltar ao login</a></div>
+</div>
+<div class="l-form" id="frmCad" style="display:none">
+  <label class="lbl">Nome completo</label><input class="inp" id="cNome" placeholder="Seu nome">
+  <label class="lbl">Data de nascimento</label><input class="inp" id="cNasc" type="date">
+  <label class="lbl">Time do coração</label><input class="inp" id="cTime" placeholder="Ex: Flamengo">
+  <label class="lbl">Celular (WhatsApp)</label><input class="inp" id="cCel" placeholder="(21) 99999-9999" inputmode="tel">
+  <label class="lbl">Criar senha</label><div style="position:relative"><input class="inp" id="cSen" placeholder="Mínimo 4 caracteres" type="password" style="padding-right:48px"><button type="button" onclick="togglePwd('cSen',this)" style="position:absolute;right:12px;top:14px;background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer">👁</button></div>
+  <label class="lbl">Escolha seu Avatar</label>
+  <input type="hidden" id="cAvatar" value="⚽">
+  <div id="avatarGrid" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px"></div>
+  <button class="btn" onclick="doCadastro()">Solicitar Cadastro</button>
+  <div class="l-link"><a onclick="showEl('frmCad',false);showEl('frmLogin',true)">← Voltar ao login</a></div>
+</div>
+<div class="l-foot">Aqui, a amizade é sempre campeã</div>
+</div>
+
+<!-- ===== APOSTAS ===== -->
+<div id="SA" class="scr pb80">
+<div class="header">
+  <div><div class="h-pre">Bolão</div><div class="h-title">Bar do Teco</div><div class="h-greet" id="hGreet" style="cursor:pointer" onclick="abrirTrocaAvatar()"></div></div>
+  <div style="display:flex;align-items:center;gap:8px"><div class="h-prize"><span>Prêmio</span><strong id="hPremio">—</strong></div><button onclick="doLogout()" style="background:none;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:16px;cursor:pointer;padding:6px 8px" title="Sair">🚪</button></div>
+</div>
+<div id="rodadaSeletor" style="display:none;padding:8px 20px">
+  <select class="inp" id="selRodadaAtiva" onchange="selecionarRodadaPalpite()" style="margin:0;font-weight:600;text-align:center"></select>
+</div>
+<div id="rodadaStatus"></div>
+<div class="sec fi"><div class="sec-t">Jogos da Rodada</div></div>
+<div id="jogosArea"><div class="empty">Nenhuma rodada ativa no momento.</div></div>
+<div class="btn-area" id="btnCravar" style="display:none"><button class="btn" onclick="enviarCartela()">⚽  Cravar Palpite</button></div>
+<div id="pixArea" style="display:none;margin:0 20px">
+  <div class="game" style="margin:0;text-align:center;padding:20px">
+    <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:12px">💳 Realizar Pagamento via PIX</div>
+    <div id="pixQrcode" style="display:flex;justify-content:center;margin-bottom:12px"></div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:8px">Ou copie o código PIX:</div>
+    <div style="background:var(--card2);padding:10px;border-radius:8px;font-size:11px;color:var(--t1);word-break:break-all;margin-bottom:10px" id="pixCopaCola"></div>
+    <button class="btn btn-sm" style="width:auto;padding:10px 20px;font-size:13px" onclick="copiarPix()">📋 Copiar código PIX</button>
+    <div style="font-size:11px;color:var(--t3);margin-top:10px">Valor: R$ <span id="pixValor"></span> por cartela</div>
+  </div>
+</div>
+<div id="minhasCartelasArea" style="display:none">
+  <div class="sec"><div class="sec-t">Minhas Cartelas</div></div>
+  <div id="lstMinhasCartelas"></div>
+</div>
+<div id="transparenciaArea" style="display:none">
+  <div class="sec"><div class="sec-t">Apostas de Todos os Jogadores</div></div>
+  <div style="margin:0 20px 10px;font-size:13px;color:var(--t3);text-align:center">Apostas encerradas. Confira os palpites de todos:</div>
+  <div id="lstTodasApostas"></div>
+  <div class="btn-area" style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" style="flex:1;background:var(--green);font-size:14px" onclick="compartilharWhatsApp()">📱 WhatsApp</button>
+    <button class="btn" style="flex:1;font-size:14px" onclick="baixarTxtApostas()">📄 Baixar arquivo</button>
+  </div>
+</div>
+<div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
+</div>
+
+<!-- ===== RANKING ===== -->
+<div id="SR" class="scr pb80">
+<div class="tbar"><button class="bk" onclick="go('SA')">←</button><h1>Tabela dos Melhores</h1></div>
+<div id="rankArea"><div class="empty">Ranking não disponível ainda.</div></div>
+<div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
+</div>
+
+<!-- ===== MEMÓRIAS ===== -->
+<div id="SH" class="scr pb80">
+<div class="tbar"><button class="bk" onclick="go('SA')">←</button><h1>Memórias</h1></div>
+<div class="msg fi">Cada rodada, uma história. Cada palpite, uma memória.</div>
+<div id="histArea"><div class="empty">Nenhuma rodada finalizada ainda.</div></div>
+<div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
+</div>
+
+<!-- ===== BALCÃO ===== -->
+<div id="SN" class="scr pb80">
+<div class="tbar"><button class="bk" onclick="go('SA')">←</button><h1>Papo de Balcão</h1></div>
+<div class="msg fi">Últimas notícias sobre futebol</div>
+<div id="newsArea"><div class="empty">Carregando notícias...</div></div>
+<div style="text-align:center;padding:10px 20px"><button class="btn btn-sm" style="width:auto;padding:10px 20px;font-size:13px;background:transparent;color:var(--t2);border:1.5px solid var(--border)" onclick="carregarNoticias()">🔄 Atualizar</button></div>
+<div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
+</div>
+
+<!-- ===== GESTÃO ===== -->
+<div id="SG" class="scr pb80">
+<div class="tbar"><button class="bk" onclick="go('SA')">←</button><h1>Gestão do Bolão</h1></div>
+<div id="gestMenu">
+  <div class="sec fi"><div class="sec-t">Painel Administrativo</div></div>
+  <div class="gest" onclick="abrirPainel('pnUsuarios')"><span class="gest-ic">👥</span><div class="gest-info"><h3>Aprovar Jogadores</h3><p>Cadastros pendentes</p></div><span class="gest-arr">›</span></div>
+  <div class="gest" onclick="abrirPainel('pnRodada')"><span class="gest-ic">📅</span><div class="gest-info"><h3>Criar Nova Rodada</h3><p>Abrir nova rodada de apostas</p></div><span class="gest-arr">›</span></div>
+  <div class="gest" onclick="abrirPainel('pnGerRod')"><span class="gest-ic">🔄</span><div class="gest-info"><h3>Gerenciar Rodadas</h3><p>Ativar, encerrar ou finalizar rodadas</p></div><span class="gest-arr">›</span></div>
+  <div class="gest" onclick="abrirPainel('pnJogos')"><span class="gest-ic">⚽</span><div class="gest-info"><h3>Cadastrar Jogos</h3><p>Adicionar jogos à rodada</p></div><span class="gest-arr">›</span></div>
+  <div class="gest" onclick="abrirPainel('pnPgto')"><span class="gest-ic">💳</span><div class="gest-info"><h3>Confirmar Pagamentos</h3><p>Validar cartelas pagas</p></div><span class="gest-arr">›</span></div>
+  <div class="gest" onclick="abrirPainel('pnResult')"><span class="gest-ic">📊</span><div class="gest-info"><h3>Registrar Resultados</h3><p>Lançar placares reais</p></div><span class="gest-arr">›</span></div>
+  <div class="gest" onclick="calcularRanking()"><span class="gest-ic">🏆</span><div class="gest-info"><h3>Calcular Ranking</h3><p>Gerar classificação</p></div><span class="gest-arr">›</span></div>
+</div>
+
+<!-- Sub-painéis de gestão -->
+<div class="panel" id="pnUsuarios">
+  <div class="panel-back" onclick="fecharPainel('pnUsuarios')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Usuários Pendentes</div></div>
+  <div id="lstUsuarios"><div class="empty">Carregando...</div></div>
+</div>
+
+<div class="panel" id="pnRodada">
+  <div class="panel-back" onclick="fecharPainel('pnRodada')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Nova Rodada</div></div>
+  <label class="lbl">Nome da Rodada</label><input class="inp" id="rNome" placeholder="Ex: Rodada 1 - Copa do Mundo 2026">
+  <label class="lbl">Campeonato</label><input class="inp" id="rCamp" placeholder="Ex: Copa do Mundo 2026">
+  <label class="lbl">Valor da Aposta (R$)</label><input class="inp" id="rValor" type="number" placeholder="10" value="10" inputmode="numeric">
+  <label class="lbl">Início das Apostas</label><input class="inp" id="rIni" type="datetime-local">
+  <label class="lbl">Encerramento das Apostas</label><input class="inp" id="rFim" type="datetime-local">
+  <div style="margin:12px 0 8px;font-size:12px;color:var(--gold);font-weight:600">Dados PIX para pagamento</div>
+  <label class="lbl">Chave PIX</label><input class="inp" id="rPix" placeholder="CPF, celular, email ou chave aleatória">
+  <label class="lbl">Nome do recebedor</label><input class="inp" id="rPixNome" placeholder="Nome que aparece no PIX">
+  <label class="lbl">Cidade</label><input class="inp" id="rPixCidade" placeholder="Ex: Rio de Janeiro" value="Rio de Janeiro">
+  <button class="btn" onclick="criarRodada()">Criar Rodada</button>
+</div>
+
+<div class="panel" id="pnGerRod">
+  <div class="panel-back" onclick="fecharPainel('pnGerRod')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Gerenciar Rodadas</div></div>
+  <div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.6">
+    <strong style="color:var(--green)">● Aberta</strong> = jogadores podem apostar<br>
+    <strong style="color:var(--red)">● Pausada</strong> = temporariamente invisível pros jogadores<br>
+    <strong style="color:var(--gold)">● Encerrada</strong> = apostas fechadas, aguardando resultados<br>
+    <strong style="color:var(--t3)">● Finalizada</strong> = rodada concluída
+  </div>
+  <div id="lstGerRod"><div class="empty">Carregando...</div></div>
+</div>
+
+<div class="panel" id="pnEditRod">
+  <div class="panel-back" onclick="fecharSubPainel('pnEditRod','pnGerRod')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Editar Rodada</div></div>
+  <input type="hidden" id="eRodId">
+  <label class="lbl">Nome da Rodada</label><input class="inp" id="eNome">
+  <label class="lbl">Campeonato</label><input class="inp" id="eCamp">
+  <label class="lbl">Valor da Aposta (R$)</label><input class="inp" id="eValor" type="number" inputmode="numeric">
+  <label class="lbl">Início das Apostas</label><input class="inp" id="eIni" type="datetime-local">
+  <label class="lbl">Encerramento das Apostas</label><input class="inp" id="eFim" type="datetime-local">
+  <div style="margin:12px 0 8px;font-size:12px;color:var(--gold);font-weight:600">Dados PIX</div>
+  <label class="lbl">Chave PIX</label><input class="inp" id="ePix">
+  <label class="lbl">Nome do recebedor</label><input class="inp" id="ePixNome">
+  <label class="lbl">Cidade</label><input class="inp" id="ePixCidade">
+  <button class="btn" onclick="salvarEdicaoRodada()">Salvar Alterações</button>
+</div>
+
+<div class="panel" id="pnJogos">
+  <div class="panel-back" onclick="fecharPainel('pnJogos')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Adicionar Jogo</div></div>
+  <label class="lbl">Selecionar Rodada</label>
+  <select class="inp" id="jRodSel" onchange="selecionarRodadaJogo()"><option value="">Carregando rodadas...</option></select>
+  <div id="rodadaIdJogo" class="msg"></div>
+  <div id="rodadaCampJogo" style="text-align:center;font-size:13px;color:var(--gold);font-weight:600;margin:-8px 0 14px"></div>
+  <label class="lbl">Time da Casa</label><select class="inp" id="jCasa"><option value="">Selecione o time...</option></select>
+  <label class="lbl">Time Visitante</label><select class="inp" id="jFora"><option value="">Selecione o time...</option></select>
+  <label class="lbl">Data e Hora do Jogo</label><input class="inp" id="jData" type="datetime-local">
+  <button class="btn" onclick="addJogo()">Adicionar Jogo</button>
+  <div style="margin-top:16px"><div class="sec"><div class="sec-t">Jogos Cadastrados</div></div></div>
+  <div id="lstJogos"><div class="empty">Carregando...</div></div>
+</div>
+
+<div class="panel" id="pnPgto">
+  <div class="panel-back" onclick="fecharPainel('pnPgto')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Cartelas Pendentes de Pagamento</div></div>
+  <div id="lstPgto"><div class="empty">Carregando...</div></div>
+</div>
+
+<div class="panel" id="pnResult">
+  <div class="panel-back" onclick="fecharPainel('pnResult')">← Voltar</div>
+  <div class="sec"><div class="sec-t">Registrar Resultados</div></div>
+  <div id="lstResult"><div class="empty">Carregando...</div></div>
+  <div class="btn-area" id="btnSalvarResult" style="display:none"><button class="btn" onclick="salvarResultados()">Salvar Resultados</button></div>
+</div>
+
+<div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
+</div>
+
+<div id="avatarModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center" onclick="this.style.display='none'">
+<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:340px;width:90%;margin:auto" onclick="event.stopPropagation()">
+<div style="font-size:16px;font-weight:700;margin-bottom:14px;text-align:center">Escolha seu Avatar</div>
+<div id="avatarModalGrid" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px"></div>
+<button class="btn" onclick="salvarAvatar()" style="font-size:14px;padding:12px">Salvar Avatar</button>
+</div></div>
+
+<!-- Nav -->
+<div class="bnav">
+<button class="nb on" onclick="go('SA')"><span class="ni">⚽</span><span class="nl">Palpite</span></button>
+<button class="nb" onclick="go('SR')"><span class="ni">🏆</span><span class="nl">Ranking</span></button>
+<button class="nb" onclick="go('SH')"><span class="ni">📜</span><span class="nl">Memórias</span></button>
+<button class="nb" onclick="go('SN')"><span class="ni">🗞️</span><span class="nl">Balcão</span></button>
+<button class="nb" id="nbGest" style="display:none" onclick="go('SG')"><span class="ni">⚙️</span><span class="nl">Gestão</span></button>
+</div>
+
+<script>
+const BASE='https://script.google.com/macros/s/AKfycbyoAGsgYNXarZuncNuF5aMj_47PbBjALsmNKHlWD0oaaSrTlihNhXVO4kNEKnZLdmHZKw/exec';
+
+let USER=null, RODADA=null, JOGOS=[], TODASRODADAS=[], RODADA_JOGOS=null, RES_MAP={};
+
+// Avatars list - expanded
+const AVATARES=['⚽','🏆','🦁','🐯','🦅','🔥','⭐','🎯','🍺','🎩','👑','🐊','🦈','🎸','🏄','🐺','🦊','🐻','🦉','💪','🎪','🌟','🎭','🐎','🦬','🐗','🐸','🦜','🐧','🐢','🦝','🐙','🦀','🐋','🦧','🐘','🦏','🐂','🐒','🐿️','🦩','🎲','🎵','🚀','💎','🌊','🍀','🫡','😎','🤠','🧙','🦸','👨‍🚀','🏋️','🎬','🎤','🛹'];
+
+// Country flags via CDN images + Club colors
+const FLAG_CODES={
+'AFRICA DO SUL':'za','ALEMANHA':'de','ARABIA SAUDITA':'sa','ARGELIA':'dz','ARGENTINA':'ar',
+'AUSTRALIA':'au','AUSTRIA':'at','BELGICA':'be','BOLIVIA':'bo','BOSNIA E HERZEGOVINA':'ba','BOSNIA':'ba',
+'BRASIL':'br','CABO VERDE':'cv','CAMAROES':'cm','CANADA':'ca','CHILE':'cl',
+'CHINA':'cn','COLOMBIA':'co','COREIA DO SUL':'kr','COSTA DO MARFIM':'ci','COSTA RICA':'cr',
+'CROACIA':'hr','CURACAO':'cw','CURACAU':'cw','DINAMARCA':'dk','EGITO':'eg','EQUADOR':'ec',
+'ESCOCIA':'gb-sct','ESPANHA':'es','ESTADOS UNIDOS':'us','EUA':'us','FRANCA':'fr','GANA':'gh',
+'GRECIA':'gr','HAITI':'ht','HOLANDA':'nl','HONDURAS':'hn','HUNGRIA':'hu',
+'INDIA':'in','INDONESIA':'id','INGLATERRA':'gb-eng','IRA':'ir','IRAQUE':'iq','IRLANDA':'ie',
+'JAPAO':'jp','JAMAICA':'jm','JORDANIA':'jo','MARROCOS':'ma','MEXICO':'mx',
+'NIGERIA':'ng','NORUEGA':'no','NOVA ZELANDIA':'nz','PANAMA':'pa','PARAGUAI':'py',
+'PAISES BAIXOS':'nl','PERU':'pe','POLONIA':'pl','PORTUGAL':'pt','QATAR':'qa','CATAR':'qa',
+'REPUBLICA DEMOCRATICA DO CONGO':'cd','REPUBLICA TCHECA':'cz','ROMENIA':'ro',
+'RUSSIA':'ru','SENEGAL':'sn','SERBIA':'rs','SUECIA':'se','SUICA':'ch',
+'TUNISIA':'tn','TURQUIA':'tr','UCRANIA':'ua','URUGUAI':'uy','UZBEQUISTAO':'uz','VENEZUELA':'ve'
+};
+const CORES_CLUBES={
+'FLAMENGO':['#c62828','#1a1a1a'],'FLUMINENSE':['#880e4f','#1b5e20'],'VASCO':['#1a1a1a','#ddd'],
+'BOTAFOGO':['#1a1a1a','#eee'],'PALMEIRAS':['#1b5e20','#eee'],'CORINTHIANS':['#1a1a1a','#eee'],
+'SAO PAULO':['#c62828','#eee'],'SANTOS':['#eee','#1a1a1a'],'GREMIO':['#0d47a1','#1a1a1a'],
+'INTERNACIONAL':['#c62828','#eee'],'CRUZEIRO':['#0d47a1','#ffd600'],'ATLETICO MG':['#1a1a1a','#eee'],
+'BAHIA':['#0d47a1','#c62828'],'VITORIA':['#c62828','#1a1a1a'],'ATHLETICO PR':['#c62828','#1a1a1a'],
+'CORITIBA':['#1b5e20','#eee'],'CHAPECOENSE':['#1b5e20','#eee'],'MIRASSOL':['#ffd600','#1b5e20'],
+'RED BULL BRAGANTINO':['#c62828','#eee'],'REMO':['#0d47a1','#eee']
+};
+function normalizar(s){return s.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z ]/g,'')}
+function getFlagCode(name){
+  var n=normalizar(name);
+  return FLAG_CODES[n]||FLAG_CODES[name.toUpperCase()]||null;
+}
+function getClubColors(name){var n=name.toUpperCase();return CORES_CLUBES[n]||CORES_CLUBES[normalizar(name)]||null}
+function teamIcon(name){
+  var code=getFlagCode(name);
+  if(code)return '<img src="https://flagcdn.com/w40/'+code+'.png" style="width:24px;height:16px;border-radius:2px;vertical-align:middle;margin:0 3px;border:1px solid rgba(255,255,255,.15)" alt="'+name+'">';
+  var c=getClubColors(name);
+  if(c)return '<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,'+c[0]+' 50%,'+c[1]+' 50%);border:1px solid rgba(255,255,255,.15);vertical-align:middle;margin:0 3px"></span>';
+  return '';
+}
+
+// Toggle password visibility
+function togglePwd(id,btn){var i=document.getElementById(id);if(i.type==='password'){i.type='text';btn.textContent='\ud83d\ude48'}else{i.type='password';btn.textContent='\ud83d\udc41'}}
+
+// Logout
+function doLogout(){sessionStorage.removeItem('user');USER=null;RODADA=null;JOGOS=[];document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on')});document.getElementById('SL').classList.add('on');document.body.classList.add('no-nav');window.scrollTo(0,0)}
+
+// Avatar change for existing users
+var avatarSelecionado='';
+function abrirTrocaAvatar(){
+  var grid=document.getElementById('avatarModalGrid');
+  grid.innerHTML='';
+  var currentAv=USER?USER.avatar||'⚽':'⚽';
+  avatarSelecionado=currentAv;
+  AVATARES.forEach(function(av){
+    var b=document.createElement('button');
+    b.type='button';b.textContent=av;
+    b.style.cssText='font-size:24px;width:42px;height:42px;border-radius:8px;border:2px solid '+(av===currentAv?'var(--gold)':'var(--border)')+';background:transparent;cursor:pointer';
+    b.onclick=function(){avatarSelecionado=av;grid.querySelectorAll('button').forEach(function(x){x.style.borderColor='var(--border)'});b.style.borderColor='var(--gold)'};
+    grid.appendChild(b);
+  });
+  document.getElementById('avatarModal').style.display='flex';
+}
+async function salvarAvatar(){
+  if(!USER)return;
+  var r=await api('POST',{acao:'atualizarAvatar',id_usuario:USER.id_usuario,avatar:avatarSelecionado});
+  if(r.sucesso){
+    USER.avatar=avatarSelecionado;
+    sessionStorage.setItem('user',JSON.stringify(USER));
+    document.getElementById('hGreet').textContent=avatarSelecionado+' Salve, '+USER.nome.split(' ')[0]+' 👋';
+    toast('Avatar atualizado!');
+  }else{toast(r.mensagem||'Erro ao salvar',true)}
+  document.getElementById('avatarModal').style.display='none';
+}
+
+// Password recovery
+async function recuperarSenha(){
+  var cel=document.getElementById('recCel').value.replace(/\D/g,'');
+  var time=document.getElementById('recTime').value.trim();
+  var nasc=document.getElementById('recNasc').value;
+  var novaSenha=document.getElementById('recSen').value;
+  if(!cel||!time||!nasc||!novaSenha)return toast('Preencha todos os campos',true);
+  var r=await api('POST',{acao:'recuperarSenha',celular:cel,time_torce:time,data_nascimento:nasc,nova_senha:novaSenha});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){showEl('frmRecup',false);showEl('frmLogin',true)}
+}
+
+// ===== FLAGS & TEAM COLORS (Item 5) =====
+const FLAGS={
+'Brasil':'🇧🇷','Argentina':'🇦🇷','Uruguai':'🇺🇾','Paraguai':'🇵🇾','Chile':'🇨🇱','Colômbia':'🇨🇴','Equador':'🇪🇨','Peru':'🇵🇪','Venezuela':'🇻🇪','Bolívia':'🇧🇴',
+'México':'🇲🇽','Estados Unidos':'🇺🇸','EUA':'🇺🇸','Canadá':'🇨🇦','Costa Rica':'🇨🇷','Panamá':'🇵🇦','Jamaica':'🇯🇲','Honduras':'🇭🇳',
+'Alemanha':'🇩🇪','França':'🇫🇷','Espanha':'🇪🇸','Itália':'🇮🇹','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Portugal':'🇵🇹','Holanda':'🇳🇱','Países Baixos':'🇳🇱','Bélgica':'🇧🇪','Croácia':'🇭🇷','Sérvia':'🇷🇸','Suíça':'🇨🇭','Dinamarca':'🇩🇰','Polônia':'🇵🇱','Áustria':'🇦🇹','Grécia':'🇬🇷','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Gales':'🏴󠁧󠁢󠁷󠁬󠁳󠁿','Turquia':'🇹🇷','Ucrânia':'🇺🇦','Suécia':'🇸🇪','Noruega':'🇳🇴','República Tcheca':'🇨🇿','Romênia':'🇷🇴','Eslováquia':'🇸🇰','Hungria':'🇭🇺','Albânia':'🇦🇱',
+'Japão':'🇯🇵','Coreia do Sul':'🇰🇷','Austrália':'🇦🇺','Arábia Saudita':'🇸🇦','Irã':'🇮🇷','Qatar':'🇶🇦','Marrocos':'🇲🇦','Senegal':'🇸🇳','Tunísia':'🇹🇳','Camarões':'🇨🇲','Gana':'🇬🇭','Nigéria':'🇳🇬','Egito':'🇪🇬','Argélia':'🇩🇿','Costa do Marfim':'🇨🇮','África do Sul':'🇿🇦',
+'China':'🇨🇳','Índia':'🇮🇳','Rússia':'🇷🇺','Iraque':'🇮🇶','Jordânia':'🇯🇴','Uzbekistão':'🇺🇿','Indonésia':'🇮🇩','Tailândia':'🇹🇭','Nova Zelândia':'🇳🇿'
+};
+const TCOL={
+'Flamengo':['#c62828','#1a1a1a'],'Fluminense':['#880e4f','#1b5e20'],'Vasco':['#1a1a1a','#ddd'],'Botafogo':['#1a1a1a','#eee'],
+'Palmeiras':['#1b5e20','#eee'],'Corinthians':['#1a1a1a','#eee'],'São Paulo':['#c62828','#eee'],'Santos':['#eee','#1a1a1a'],
+'Grêmio':['#0d47a1','#1a1a1a'],'Internacional':['#c62828','#eee'],'Cruzeiro':['#0d47a1','#ffd600'],'Atlético-MG':['#1a1a1a','#eee'],
+'Bahia':['#0d47a1','#c62828'],'Vitória':['#c62828','#1a1a1a'],'Fortaleza':['#0d47a1','#c62828'],'Ceará':['#1a1a1a','#eee'],
+'Athletico-PR':['#c62828','#1a1a1a'],'Coritiba':['#1b5e20','#eee'],'Sport':['#c62828','#1a1a1a'],'Náutico':['#c62828','#eee'],
+'Flamengo-RJ':['#c62828','#1a1a1a'],'Vasco da Gama':['#1a1a1a','#ddd']
+};
+function teamBadge(name){
+  return teamIcon(name);
+}
+
+// ===== API =====
+async function api(method,data){
+  loading(true);
+  try{
+    let resp;
+    if(method==='GET'){
+      const url=BASE+'?'+new URLSearchParams(data);
+      resp=await fetch(url,{redirect:'follow'});
+    }else{
+      resp=await fetch(BASE,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data),redirect:'follow'});
+    }
+    const json=await resp.json();
+    loading(false);
+    return json;
+  }catch(e){
+    loading(false);
+    toast('Erro de conexão: '+e.message,true);
+    return {sucesso:false,mensagem:e.message};
+  }
+}
+
+// ===== HELPERS DE DATA (fuso horário) =====
+function toLocalInput(dateVal){
+  if(!dateVal)return '';
+  const d=new Date(dateVal);
+  if(isNaN(d))return '';
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0'),h=String(d.getHours()).padStart(2,'0'),min=String(d.getMinutes()).padStart(2,'0');
+  return y+'-'+m+'-'+day+'T'+h+':'+min;
+}
+
+// ===== UI HELPERS =====
+function loading(show){document.getElementById('loader').className='loading-overlay'+(show?' show':'')}
+function toast(msg,isErr){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(isErr?'err':'ok');setTimeout(()=>t.className='toast',3000)}
+function showEl(id,show){document.getElementById(id).style.display=show?'block':'none'}
+function go(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.body.classList.toggle('no-nav',id==='SL');
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  const m={SA:0,SR:1,SH:2,SN:3,SG:4};
+  if(m[id]!==undefined)document.querySelectorAll('.nb')[m[id]].classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='SA')carregarRodada();
+  if(id==='SR')carregarRanking();
+  if(id==='SH')carregarHistorico();
+  if(id==='SN')carregarNoticias();
+}
+
+// ===== NOTÍCIAS =====
+async function carregarNoticias(){
+  var h='<div style="padding:20px;text-align:center">';
+  h+='<div style="font-size:40px;margin-bottom:12px">🗞️</div>';
+  h+='<div style="font-size:15px;font-weight:600;margin-bottom:8px">Notícias sobre a Copa do Mundo 2026</div>';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:16px">Clique abaixo pra ver as últimas notícias sobre futebol</div>';
+  h+='<a href="https://news.google.com/search?q=copa%20do%20mundo%202026%20futebol&hl=pt-BR&gl=BR" target="_blank" style="display:block;padding:14px;background:var(--gold);color:var(--bg);border-radius:var(--r);font-size:15px;font-weight:700;text-decoration:none;margin:0 20px">Abrir Notícias</a>';
+  h+='<div style="margin-top:20px"><a href="https://ge.globo.com/futebol/" target="_blank" style="color:var(--gold);font-size:14px;text-decoration:none;font-weight:600">⚽ GE Futebol</a>';
+  h+='&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.espn.com.br/futebol/" target="_blank" style="color:var(--gold);font-size:14px;text-decoration:none;font-weight:600">📺 ESPN</a></div>';
+  h+='</div>';
+  document.getElementById('newsArea').innerHTML=h;
+}
+
+// ===== PIX =====
+function gerarPixPayload(chave,nome,cidade,valor){
+  function tlv(id,val){var l=val.length.toString().padStart(2,'0');return id+l+val}
+  var gui=tlv('00','br.gov.bcb.pix')+tlv('01',chave);
+  var payload=tlv('00','01')+tlv('26',gui)+tlv('52','0000')+tlv('53','986');
+  if(valor)payload+=tlv('54',valor.toFixed(2));
+  payload+=tlv('58','BR')+tlv('59',nome.substring(0,25))+tlv('60',cidade.substring(0,15));
+  payload+=tlv('62',tlv('05','***'));
+  payload+='6304';
+  // CRC16-CCITT
+  var crc=0xFFFF;
+  for(var i=0;i<payload.length;i++){
+    crc^=payload.charCodeAt(i)<<8;
+    for(var j=0;j<8;j++){if(crc&0x8000)crc=(crc<<1)^0x1021;else crc<<=1;crc&=0xFFFF}
+  }
+  return payload+crc.toString(16).toUpperCase().padStart(4,'0');
+}
+
+function mostrarPix(){
+  if(!RODADA||!RODADA.pix_chave)return;
+  var payload=gerarPixPayload(RODADA.pix_chave,RODADA.pix_nome||'Bar do Teco',RODADA.pix_cidade||'Rio de Janeiro',RODADA.valor_aposta);
+  document.getElementById('pixCopaCola').textContent=payload;
+  document.getElementById('pixValor').textContent=RODADA.valor_aposta;
+  document.getElementById('pixQrcode').innerHTML='';
+  try{new QRCode(document.getElementById('pixQrcode'),{text:payload,width:180,height:180,colorDark:'#e8e4dc',colorLight:'#151b28'})}catch(e){}
+  document.getElementById('pixArea').style.display='block';
+}
+
+function copiarPix(){
+  var txt=document.getElementById('pixCopaCola').textContent;
+  navigator.clipboard.writeText(txt).then(function(){toast('Código PIX copiado!')}).catch(function(){
+    var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Código PIX copiado!');
+  });
+}
+
+// ===== LOGIN =====
+async function doLogin(){
+  const cel=document.getElementById('inCel').value.replace(/\D/g,'');
+  const sen=document.getElementById('inSen').value;
+  if(!cel||!sen)return toast('Preencha celular e senha',true);
+  const r=await api('GET',{acao:'login',celular:cel,senha:sen});
+  if(r.sucesso){
+    USER=r.dados;
+    sessionStorage.setItem('user',JSON.stringify(USER));
+    document.getElementById('hGreet').textContent=(USER.avatar||'⚽')+' Salve, '+USER.nome.split(' ')[0]+' 👋';
+    if(USER.perfil==='Gestor'||USER.perfil==='Organizador'){document.getElementById('nbGest').style.display='';checkPendentes()}
+    toast('Bem-vindo, '+USER.nome.split(' ')[0]+'!');
+    go('SA');
+  }else{
+    toast(r.mensagem,true);
+  }
+}
+
+async function checkPendentes(){
+  const r=await api('GET',{acao:'getUsuarios',filtro_status:'Pendente'});
+  if(r.sucesso&&r.dados.length>0){
+    const n=r.dados.length;
+    const msg=n===1?'Há 1 jogador aguardando aprovação':'Há '+n+' jogadores aguardando aprovação';
+    setTimeout(()=>{if(confirm('📋 '+msg+'.\n\nDeseja ir para o painel de aprovação agora?')){go('SG');setTimeout(()=>abrirPainel('pnUsuarios'),300)}},1500);
+  }
+}
+
+async function doCadastro(){
+  const dados={acao:'cadastro',nome:document.getElementById('cNome').value,data_nascimento:document.getElementById('cNasc').value,time_torce:document.getElementById('cTime').value,celular:document.getElementById('cCel').value.replace(/\D/g,''),senha:document.getElementById('cSen').value,avatar:document.getElementById('cAvatar').value};
+  if(!dados.nome||!dados.celular||!dados.senha)return toast('Preencha todos os campos',true);
+  const r=await api('POST',dados);
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){showEl('frmCad',false);showEl('frmLogin',true)}
+}
+
+// ===== RODADA & JOGOS =====
+var RODADAS_ATIVAS=[];
+
+async function carregarRodada(){
+  document.getElementById('transparenciaArea').style.display='none';
+  document.getElementById('minhasCartelasArea').style.display='none';
+  document.getElementById('pixArea').style.display='none';
+  // Load all rounds
+  const rds=await api('GET',{acao:'getRodadas'});
+  if(rds.sucesso&&rds.dados.length){
+    RODADAS_ATIVAS=rds.dados.filter(function(r){return r.status==='Aberta'||r.status==='Encerrada'});
+    if(RODADAS_ATIVAS.length>1){
+      // Show selector
+      var sel=document.getElementById('selRodadaAtiva');
+      sel.innerHTML='';
+      RODADAS_ATIVAS.forEach(function(rd){
+        var label=rd.nome_rodada+' ('+(rd.status==='Aberta'?'Apostas abertas':'Encerrada')+')';
+        var opt=document.createElement('option');
+        opt.value=rd.id_rodada;opt.textContent=label;
+        if(RODADA&&rd.id_rodada===RODADA.id_rodada)opt.selected=true;
+        sel.appendChild(opt);
+      });
+      document.getElementById('rodadaSeletor').style.display='block';
+      // If no round selected yet, use first one
+      if(!RODADA||!RODADAS_ATIVAS.find(function(r){return r.id_rodada===RODADA.id_rodada})){
+        RODADA=RODADAS_ATIVAS[0];
+      }
+    }else if(RODADAS_ATIVAS.length===1){
+      RODADA=RODADAS_ATIVAS[0];
+      document.getElementById('rodadaSeletor').style.display='none';
+    }else{
+      RODADA=null;
+      document.getElementById('rodadaSeletor').style.display='none';
+      document.getElementById('jogosArea').innerHTML='<div class="empty">Nenhuma rodada ativa no momento.</div>';
+      document.getElementById('rodadaStatus').innerHTML='';
+      document.getElementById('btnCravar').style.display='none';
+      document.getElementById('hPremio').textContent='—';
+      return;
+    }
+    carregarDadosRodada();
+  }else{
+    document.getElementById('jogosArea').innerHTML='<div class="empty">Nenhuma rodada ativa no momento.</div>';
+    document.getElementById('rodadaStatus').innerHTML='';
+    document.getElementById('btnCravar').style.display='none';
+    document.getElementById('hPremio').textContent='—';
+  }
+}
+
+function selecionarRodadaPalpite(){
+  var id=document.getElementById('selRodadaAtiva').value;
+  var rd=RODADAS_ATIVAS.find(function(r){return r.id_rodada===id});
+  if(rd){RODADA=rd;carregarDadosRodada()}
+}
+
+async function carregarDadosRodada(){
+  if(!RODADA)return;
+  document.getElementById('transparenciaArea').style.display='none';
+  document.getElementById('minhasCartelasArea').style.display='none';
+  document.getElementById('pixArea').style.display='none';
+  var aberta=RODADA.status==='Aberta';
+  var encerrada=RODADA.status==='Encerrada';
+  // Check if deadline passed even if status is still Aberta
+  var agora=new Date();
+  var fimApostas=RODADA.data_fim_apostas?new Date(RODADA.data_fim_apostas):null;
+  var apostasPossiveis=aberta&&(!fimApostas||agora<=fimApostas);
+  document.getElementById('rodadaStatus').innerHTML='<div class="status'+(apostasPossiveis?'':' status-closed')+'"><div class="status-dot"></div>'+RODADA.nome_rodada+(apostasPossiveis?' · Apostas abertas':' · Apostas encerradas')+'</div>'+(RODADA.campeonato?'<div style="text-align:center;font-size:12px;color:var(--gold);font-weight:600;margin:-8px 0 10px">'+RODADA.campeonato+' · R$ '+RODADA.valor_aposta+' por cartela</div>':'');
+  // Load games
+  var j=await api('GET',{acao:'getJogos',id_rodada:RODADA.id_rodada});
+  if(j.sucesso){
+    JOGOS=j.dados;
+    RES_MAP={};
+    var resData=await api('GET',{acao:'getResultados',id_rodada:RODADA.id_rodada});
+    if(resData.sucesso&&resData.dados.length){resData.dados.forEach(function(rd){RES_MAP[rd.id_jogo]={c:rd.gols_casa_real,v:rd.gols_visitante_real,st:rd.status_jogo}})}
+    renderJogos(apostasPossiveis);
+    var c=await api('GET',{acao:'getCartelas',id_rodada:RODADA.id_rodada});
+    if(c.sucesso){
+      var pagas=c.dados.filter(function(x){return x.status_pagamento==='Pago'}).length;
+      document.getElementById('hPremio').textContent='R$ '+(pagas*RODADA.valor_aposta);
+    }
+    if(encerrada||!apostasPossiveis)carregarTodasApostas();
+    carregarMinhasCartelas();
+  }
+}
+
+let TODAS_APOSTAS_TEXTO='';
+
+async function carregarTodasApostas(){
+  if(!RODADA)return;
+  const r=await api('GET',{acao:'getTodasApostas',id_rodada:RODADA.id_rodada});
+  if(r.sucesso&&r.dados.length){
+    document.getElementById('transparenciaArea').style.display='block';
+    let h='';
+    let txt='⚽ *BOLÃO BAR DO TECO*\n'+RODADA.nome_rodada+' - '+(RODADA.campeonato||'')+'\n';
+    txt+='━━━━━━━━━━━━━━━━━━━━\n\n';
+    // Count cartelas per user for numbering
+    const userCount={};
+    r.dados.forEach(c=>{userCount[c.nome_usuario]=(userCount[c.nome_usuario]||0)+1});
+    const userIdx={};
+    r.dados.forEach(cartela=>{
+      userIdx[cartela.nome_usuario]=(userIdx[cartela.nome_usuario]||0)+1;
+      const numLabel=userCount[cartela.nome_usuario]>1?' · Cartela '+userIdx[cartela.nome_usuario]:'';
+      h+='<div class="game" style="margin:0 20px 8px"><div style="font-weight:700;margin-bottom:8px;color:var(--gold)">👤 '+cartela.nome_usuario+numLabel+'</div>';
+      txt+='👤 *'+cartela.nome_usuario+numLabel+'*\n';
+      cartela.palpites.forEach(p=>{
+        var ptsLabel='';
+        var res=RES_MAP[p.id_jogo];
+        if(res&&res.st==='Finalizado'){
+          var gc=Number(p.gols_casa),gv=Number(p.gols_visitante),rc=Number(res.c),rv=Number(res.v);
+          if(gc===rc&&gv===rv){ptsLabel='<span style="color:var(--green);font-weight:700;font-size:11px;margin-left:6px">5 pts ⚡</span>'}
+          else if((gc>gv&&rc>rv)||(gc<gv&&rc<rv)||(gc===gv&&rc===rv)){ptsLabel='<span style="color:var(--gold);font-weight:700;font-size:11px;margin-left:6px">3 pts ✓</span>'}
+          else{ptsLabel='<span style="color:var(--red);font-weight:700;font-size:11px;margin-left:6px">0 pts ✗</span>'}
+        }
+        h+='<div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:3px 0;border-bottom:1px solid var(--border)"><span>'+p.time_casa+' × '+p.time_visitante+'</span><span style="display:flex;align-items:center"><span style="font-weight:700;color:var(--t1)">'+p.gols_casa+' × '+p.gols_visitante+'</span>'+ptsLabel+'</span></div>';
+        txt+='   '+p.time_casa+' '+p.gols_casa+' × '+p.gols_visitante+' '+p.time_visitante+'\n';
+      });
+      h+='</div>';
+      txt+='\n';
+    });
+    txt+='━━━━━━━━━━━━━━━━━━━━\n';
+    txt+='💰 Total: '+r.dados.length+' cartelas\n';
+    txt+='🏆 Boa sorte a todos!\n';
+    txt+='_Celebramos a amizade desde 1985_';
+    TODAS_APOSTAS_TEXTO=txt;
+    document.getElementById('lstTodasApostas').innerHTML=h;
+  }
+}
+
+function compartilharWhatsApp(){
+  if(!TODAS_APOSTAS_TEXTO)return toast('Nenhuma aposta pra compartilhar',true);
+  const url='https://wa.me/?text='+encodeURIComponent(TODAS_APOSTAS_TEXTO);
+  window.open(url,'_blank');
+}
+
+function baixarTxtApostas(){
+  if(!TODAS_APOSTAS_TEXTO)return toast('Nenhuma aposta pra baixar',true);
+  const blob=new Blob([TODAS_APOSTAS_TEXTO],{type:'text/plain;charset=utf-8'});
+  const u=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=u;a.download='bolao-'+(RODADA?RODADA.nome_rodada.replace(/\s/g,'-'):'apostas')+'.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(u);
+  toast('Arquivo baixado! Envie no WhatsApp.');
+}
+
+function renderJogos(aberta){
+  if(!JOGOS.length){document.getElementById('jogosArea').innerHTML='<div class="empty">Nenhum jogo cadastrado.</div>';return}
+  let h='';
+  JOGOS.forEach((g,i)=>{
+    const dt=g.data_hora_jogo?new Date(g.data_hora_jogo).toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+    const bh=teamBadge(g.time_casa), ba=teamBadge(g.time_visitante);
+    const res=RES_MAP[g.id_jogo];
+    let resLine='';
+    if(res&&res.st==='Finalizado'){
+      resLine='<div style="text-align:center;font-size:12px;margin-top:6px;padding:4px 8px;background:rgba(52,199,89,.08);border-radius:8px;color:var(--green);font-weight:700">Resultado: '+res.c+' × '+res.v+'</div>';
+    }
+    h+='<div class="game fi"><div class="game-meta"><span>'+(i+1)+'º jogo</span><span>'+dt+'</span></div><div class="game-teams"><div class="g-t h"><span class="g-n">'+g.time_casa+'</span>'+bh+'</div><div class="g-sc"><input class="g-in" id="gh_'+g.id_jogo+'" maxlength="2" inputmode="numeric"'+(aberta?'':' disabled')+'><span class="g-vs">×</span><input class="g-in" id="ga_'+g.id_jogo+'" maxlength="2" inputmode="numeric"'+(aberta?'':' disabled')+'></div><div class="g-t">'+ba+'<span class="g-n">'+g.time_visitante+'</span></div></div>'+resLine+'</div>';
+  });
+  document.getElementById('jogosArea').innerHTML=h;
+  document.getElementById('btnCravar').style.display=aberta?'block':'none';
+}
+
+async function enviarCartela(){
+  if(!USER||!RODADA)return;
+  const palpites=[];
+  let incompleto=false;
+  JOGOS.forEach(g=>{
+    const gc=document.getElementById('gh_'+g.id_jogo).value;
+    const gv=document.getElementById('ga_'+g.id_jogo).value;
+    if(gc===''||gv==='')incompleto=true;
+    palpites.push({id_jogo:g.id_jogo,gols_casa:parseInt(gc)||0,gols_visitante:parseInt(gv)||0});
+  });
+  if(incompleto)return toast('Preencha todos os placares',true);
+  const r=await api('POST',{acao:'enviarCartela',id_rodada:RODADA.id_rodada,id_usuario:USER.id_usuario,palpites:palpites});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){JOGOS.forEach(g=>{document.getElementById('gh_'+g.id_jogo).value='';document.getElementById('ga_'+g.id_jogo).value=''});carregarMinhasCartelas();mostrarPix()}
+}
+
+async function carregarMinhasCartelas(){
+  if(!USER||!RODADA)return;
+  const r=await api('GET',{acao:'getCartelas',id_rodada:RODADA.id_rodada,id_usuario:USER.id_usuario});
+  if(r.sucesso&&r.dados.length){
+    document.getElementById('minhasCartelasArea').style.display='block';
+    let h='';
+    for(let ci=0;ci<r.dados.length;ci++){
+      const c=r.dados[ci];
+      const statusCor=c.status_pagamento==='Pago'?'var(--green)':'var(--gold)';
+      const statusTxt=c.status_pagamento==='Pago'?'Pago':'Aguardando pgto';
+      h+='<div class="game" style="margin:0 20px 8px"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="font-size:13px">Cartela '+(ci+1)+'</strong><span style="font-size:11px;color:'+statusCor+';font-weight:600">'+statusTxt+'</span></div>';
+      const p=await api('GET',{acao:'getPalpites',id_cartela:c.id_cartela});
+      if(p.sucesso){
+        p.dados.forEach(pal=>{
+          const jogo=JOGOS.find(j=>j.id_jogo===pal.id_jogo);
+          const casa=jogo?jogo.time_casa:'?';
+          const fora=jogo?jogo.time_visitante:'?';
+          h+='<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--border)"><span>'+casa+' x '+fora+'</span><span style="font-weight:700">'+pal.gols_casa+' x '+pal.gols_visitante+'</span></div>';
+        });
+      }
+      h+='</div>';
+    }
+    document.getElementById('lstMinhasCartelas').innerHTML=h;
+  }else{
+    document.getElementById('minhasCartelasArea').style.display='none';
+  }
+}
+
+
+// ===== RANKING =====
+async function carregarRanking(){
+  if(!RODADA)return document.getElementById('rankArea').innerHTML='<div class="empty">Nenhuma rodada ativa.</div>';
+  const r=await api('GET',{acao:'getRanking',id_rodada:RODADA.id_rodada});
+  if(r.sucesso&&r.dados.length){
+    const rk=r.dados;
+    let h='<div class="parcial">📊 '+RODADA.nome_rodada+(RODADA.campeonato?' · '+RODADA.campeonato:'')+'</div>';
+    // Pódio - handle ties properly
+    const pos1=rk.filter(x=>x.posicao===1);
+    const pos2=rk.filter(x=>x.posicao===2);
+    const pos3=rk.filter(x=>x.posicao===3);
+    h+='<div style="text-align:center;padding:16px 20px">';
+    // 1st place
+    h+='<div style="margin-bottom:12px"><div style="font-size:28px">👑</div>';
+    h+='<div style="font-size:16px;font-weight:800;color:var(--gold)">'+pos1.map(x=>x.nome).join(', ')+'</div>';
+    h+='<div style="font-size:22px;font-weight:800;color:var(--gold)">'+pos1[0].total_pontos+' <span style="font-size:12px;color:var(--t2)">pts</span></div></div>';
+    // 2nd place
+    if(pos2.length){
+      h+='<div style="margin-bottom:8px"><span style="font-size:20px">🥈</span> ';
+      h+='<span style="font-size:14px;font-weight:700;color:var(--t2)">'+pos2.map(x=>x.nome).join(', ')+'</span>';
+      h+=' <span style="font-size:14px;font-weight:700;color:var(--t2)">'+pos2[0].total_pontos+' pts</span></div>';
+    }
+    // 3rd place
+    if(pos3.length){
+      h+='<div><span style="font-size:20px">🥉</span> ';
+      h+='<span style="font-size:14px;font-weight:700;color:#b87333">'+pos3.map(x=>x.nome).join(', ')+'</span>';
+      h+=' <span style="font-size:14px;font-weight:700;color:#b87333">'+pos3[0].total_pontos+' pts</span></div>';
+    }
+    h+='</div>';
+    // Full ranking list
+    h+='<div class="sec"><div class="sec-t">Classificação Completa</div></div>';
+    rk.forEach(r=>{h+='<div class="rank-item"><span class="rk-pos">'+r.posicao+'º</span><span class="rk-nm">'+r.nome+'</span><span style="font-size:11px;color:var(--t3);margin-left:4px">'+r.acertos_placar+'⚡ '+r.acertos_resultado+'✓</span><span class="rk-pts" style="margin-left:auto">'+r.total_pontos+' <span>pts</span></span></div>'});
+    // Curiosidades (item 8)
+    h+='<div class="sec" style="margin-top:16px"><div class="sec-t">Curiosidades da Rodada</div></div>';
+    const topPlacar=[...rk].sort((a,b)=>b.acertos_placar-a.acertos_placar);
+    const topResult=[...rk].sort((a,b)=>b.acertos_resultado-a.acertos_resultado);
+    if(topPlacar[0].acertos_placar>0){
+      h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">🎯</span><span class="rk-nm">Mestre do Placar</span><span class="rk-pts" style="margin-left:auto">'+topPlacar[0].nome+' ('+topPlacar[0].acertos_placar+' exatos)</span></div>';
+    }
+    if(topResult[0].acertos_resultado>0){
+      h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">✅</span><span class="rk-nm">Bom de Resultado</span><span class="rk-pts" style="margin-left:auto">'+topResult[0].nome+' ('+topResult[0].acertos_resultado+' acertos)</span></div>';
+    }
+    const zerados=rk.filter(x=>x.total_pontos===0);
+    if(zerados.length>0){
+      h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">😅</span><span class="rk-nm">Tá difícil...</span><span class="rk-pts" style="margin-left:auto">'+zerados.map(x=>x.nome).join(', ')+'</span></div>';
+    }
+    // Estatísticas da Rodada (item 2)
+    var resArr=Object.values(RES_MAP).filter(function(r){return r.st==='Finalizado'});
+    if(resArr.length>0){
+      h+='<div class="sec" style="margin-top:16px"><div class="sec-t">Estatísticas da Rodada</div></div>';
+      var totalGols=0,empates=0,vitCasa=0,vitFora=0,maiorGol=0,placarFreq={};
+      resArr.forEach(function(r){
+        var gc=Number(r.c),gv=Number(r.v);
+        totalGols+=gc+gv;
+        if(gc===gv)empates++;else if(gc>gv)vitCasa++;else vitFora++;
+        var diff=Math.abs(gc-gv);if(diff>maiorGol)maiorGol=diff;
+        var pl=gc+'×'+gv;placarFreq[pl]=(placarFreq[pl]||0)+1;
+      });
+      var placarTop=Object.entries(placarFreq).sort(function(a,b){return b[1]-a[1]})[0];
+      h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">⚽</span><span class="rk-nm">Total de gols</span><span class="rk-pts" style="margin-left:auto">'+totalGols+' gols em '+resArr.length+' jogos</span></div>';
+      h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">📊</span><span class="rk-nm">Mandante × Visitante × Empate</span><span class="rk-pts" style="margin-left:auto">'+vitCasa+' × '+vitFora+' × '+empates+'</span></div>';
+      if(placarTop)h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">🔥</span><span class="rk-nm">Placar mais frequente</span><span class="rk-pts" style="margin-left:auto">'+placarTop[0]+' ('+placarTop[1]+'x)</span></div>';
+      if(maiorGol>0)h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">💥</span><span class="rk-nm">Maior diferença de gols</span><span class="rk-pts" style="margin-left:auto">'+maiorGol+' gol'+(maiorGol>1?'s':'')+'</span></div>';
+    }
+    document.getElementById('rankArea').innerHTML=h;
+  }else{
+    document.getElementById('rankArea').innerHTML='<div class="empty">Ranking não calculado ainda.</div>';
+  }
+}
+
+// ===== HISTÓRICO =====
+async function carregarHistorico(){
+  const r=await api('GET',{acao:'getHistorico'});
+  if(r.sucesso&&r.dados.length){
+    let h='<div class="stats-grid">';
+    let totalPremio=0;r.dados.forEach(x=>totalPremio+=x.premio_total);
+    h+='<div class="stat"><div>💰</div><div class="stat-v">R$ '+totalPremio+'</div><div class="stat-l">Distribuído</div></div>';
+    h+='<div class="stat"><div>⚽</div><div class="stat-v">'+r.dados.length+'</div><div class="stat-l">Rodadas</div></div>';
+    h+='<div class="stat"><div>🏆</div><div class="stat-v">—</div><div class="stat-l">Campeões</div></div></div>';
+    h+='<div class="sec fi"><div class="sec-t">Rodadas Anteriores</div></div>';
+    r.dados.forEach(rd=>{
+      const venc=rd.vencedores.length?rd.vencedores.map(v=>{
+        let s=v.nome;
+        if(v.acertos_placar!==undefined)s+=' ('+v.acertos_placar+'⚡ '+v.acertos_resultado+'✓)';
+        return s;
+      }).join(', '):'—';
+      const pts=rd.vencedores.length?rd.vencedores[0].pontos:'—';
+      h+='<div class="hist"><div class="hist-top"><div style="display:flex;align-items:center;gap:8px"><span class="hist-rnd">'+rd.nome_rodada+'</span></div><span class="hist-pr">R$ '+rd.premio_total+'</span></div><div class="hist-win"><span>🏆</span><span class="hist-wn">'+venc+'</span><span class="hist-wp">'+pts+' pts</span></div><div class="hist-meta"><span>👥 '+rd.total_cartelas+' cartelas</span><span>⚽ '+rd.total_jogos+' jogos</span></div></div>';
+    });
+    document.getElementById('histArea').innerHTML=h;
+  }else{
+    document.getElementById('histArea').innerHTML='<div class="empty">Nenhuma rodada finalizada ainda.</div>';
+  }
+}
+
+// ===== GESTÃO =====
+function abrirPainel(id){
+  showEl('gestMenu',false);
+  document.getElementById(id).className='panel on';
+  if(id==='pnUsuarios')carregarUsuariosPendentes();
+  if(id==='pnJogos')carregarJogosCadastrados();
+  if(id==='pnPgto')carregarPagamentosPendentes();
+  if(id==='pnResult')carregarJogosResultados();
+  if(id==='pnGerRod')carregarGerRodadas();
+}
+function fecharPainel(id){document.getElementById(id).className='panel';showEl('gestMenu',true)}
+
+async function carregarGerRodadas(){
+  const r=await api('GET',{acao:'getRodadas'});
+  if(r.sucesso&&r.dados.length){
+    TODASRODADAS=r.dados;
+    let h='';
+    // Render rounds first
+    for(let ri=0;ri<r.dados.length;ri++){
+      const rd=r.dados[ri];
+      const st=rd.status;
+      const cor=st==='Aberta'?'var(--green)':st==='Pausada'?'var(--red)':st==='Encerrada'?'var(--gold)':'var(--t3)';
+      h+=`<div class="game" style="margin:0 0 10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div><strong>${rd.nome_rodada}</strong><div style="font-size:12px;color:var(--t3)">${rd.campeonato||''} \u00b7 R$ ${rd.valor_aposta}</div></div><span style="font-size:12px;font-weight:700;color:${cor}">\u25cf ${st}</span></div>`;
+      h+=`<div id="statsRod_${ri}" style="font-size:11px;color:var(--t3);margin-bottom:8px;display:flex;gap:10px"></div>`;
+      h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
+      if(st==='Aberta'){
+        h+=`<button class="btn btn-sm" style="flex:1;padding:8px;font-size:11px;background:transparent;color:var(--red);border:1.5px solid var(--red)" onclick="mudarStatusRodada('${rd.id_rodada}','Pausada')">\u23f8 Pausar</button>`;
+        h+=`<button class="btn btn-sm" style="flex:1;padding:8px;font-size:11px" onclick="mudarStatusRodada('${rd.id_rodada}','Encerrada')">\ud83d\udd12 Encerrar</button>`;
+      }
+      if(st==='Pausada'){
+        h+=`<button class="btn btn-sm" style="flex:1;padding:8px;font-size:11px;background:var(--green);color:var(--bg)" onclick="mudarStatusRodada('${rd.id_rodada}','Aberta')">\u25b6 Retomar</button>`;
+      }
+      if(st==='Encerrada'){
+        h+=`<button class="btn btn-sm" style="flex:1;padding:8px;font-size:11px" onclick="mudarStatusRodada('${rd.id_rodada}','Finalizada')">\u2705 Finalizar</button>`;
+      }
+      h+=`<button class="btn btn-sm" style="padding:8px 10px;font-size:11px;background:transparent;color:var(--t2);border:1.5px solid var(--border)" onclick="editarRodada('${rd.id_rodada}')">\u270f\ufe0f Editar</button>`;
+      h+=`<button class="btn btn-sm" style="padding:8px 10px;font-size:11px;background:transparent;color:var(--red);border:1.5px solid rgba(255,107,107,.3)" onclick="excluirRodada('${rd.id_rodada}')">\ud83d\uddd1\ufe0f Excluir</button>`;
+      h+='</div></div>';
+    }
+    document.getElementById('lstGerRod').innerHTML=h;
+    // Load stats for each round in background
+    for(let ri=0;ri<r.dados.length;ri++){
+      const rd=r.dados[ri];
+      const c=await api('GET',{acao:'getCartelas',id_rodada:rd.id_rodada});
+      if(c.sucesso){
+        const total=c.dados.length;
+        const pagas=c.dados.filter(x=>x.status_pagamento==='Pago').length;
+        const pend=total-pagas;
+        const el=document.getElementById('statsRod_'+ri);
+        if(el)el.innerHTML='<span>\ud83c\udfab '+total+' cartelas</span><span style="color:var(--green)">\u2705 '+pagas+' pagas</span>'+(pend>0?'<span style="color:var(--gold)">\u23f3 '+pend+' pendentes</span>':'')+'<span>\ud83d\udcb0 R$ '+(pagas*rd.valor_aposta)+'</span>';
+      }
+    }
+  }else{document.getElementById('lstGerRod').innerHTML='<div class="empty">Nenhuma rodada cadastrada.</div>'}
+}
+
+function fecharSubPainel(fechar,abrir){
+  document.getElementById(fechar).className='panel';
+  document.getElementById(abrir).className='panel on';
+}
+
+function editarRodada(id){
+  const rd=TODASRODADAS.find(r=>r.id_rodada===id);
+  if(!rd)return toast('Rodada nao encontrada',true);
+  document.getElementById('eRodId').value=rd.id_rodada;
+  document.getElementById('eNome').value=rd.nome_rodada;
+  document.getElementById('eCamp').value=rd.campeonato||'';
+  document.getElementById('eValor').value=rd.valor_aposta||10;
+  document.getElementById('eIni').value=toLocalInput(rd.data_inicio_apostas);
+  document.getElementById('eFim').value=toLocalInput(rd.data_fim_apostas);
+  document.getElementById('ePix').value=rd.pix_chave||'';
+  document.getElementById('ePixNome').value=rd.pix_nome||'';
+  document.getElementById('ePixCidade').value=rd.pix_cidade||'';
+  document.getElementById('pnGerRod').className='panel';
+  document.getElementById('pnEditRod').className='panel on';
+}
+
+async function salvarEdicaoRodada(){
+  const dados={acao:'atualizarRodada',id_rodada:document.getElementById('eRodId').value,nome_rodada:document.getElementById('eNome').value,campeonato:document.getElementById('eCamp').value,valor_aposta:parseFloat(document.getElementById('eValor').value)||10,data_inicio_apostas:document.getElementById('eIni').value||'',data_fim_apostas:document.getElementById('eFim').value||'',pix_chave:document.getElementById('ePix').value,pix_nome:document.getElementById('ePixNome').value,pix_cidade:document.getElementById('ePixCidade').value};
+  const r=await api('POST',dados);
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){fecharSubPainel('pnEditRod','pnGerRod');carregarGerRodadas();carregarRodada()}
+}
+
+async function excluirRodada(id){
+  const rd=TODASRODADAS.find(r=>r.id_rodada===id);
+  const nome=rd?rd.nome_rodada:'esta rodada';
+  if(!confirm('Excluir "'+nome+'"?\n\nTodos os jogos, cartelas, palpites e resultados serao apagados.\n\nEssa acao NAO pode ser desfeita.'))return;
+  if(!confirm('Tem certeza ABSOLUTA?'))return;
+  const r=await api('POST',{acao:'excluirRodada',id_rodada:id});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){carregarGerRodadas();carregarRodada()}
+}
+
+
+async function mudarStatusRodada(id,novoStatus){
+  if(!confirm('Confirma mudar status para "'+novoStatus+'"?'))return;
+  const r=await api('POST',{acao:'atualizarRodada',id_rodada:id,status:novoStatus});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){carregarGerRodadas();carregarRodada()}
+}
+
+async function carregarUsuariosPendentes(){
+  const r=await api('GET',{acao:'getUsuarios',filtro_status:'Pendente'});
+  if(r.sucesso&&r.dados.length){
+    let h='';
+    r.dados.forEach(u=>{h+='<div class="gest"><span class="gest-ic">👤</span><div class="gest-info"><h3>'+u.nome+'</h3><p>'+u.time_torce+' · '+u.celular+'</p></div><button class="btn btn-sm" onclick="aprovarUser(&#39;'+u.id_usuario+'&#39;)">Aprovar</button></div>'});
+    document.getElementById('lstUsuarios').innerHTML=h;
+  }else{document.getElementById('lstUsuarios').innerHTML='<div class="empty">Nenhum cadastro pendente 👍</div>'}
+}
+
+async function aprovarUser(id){
+  const r=await api('POST',{acao:'aprovarUsuario',id_usuario:id,novo_status:'Ativo'});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso)carregarUsuariosPendentes();
+}
+
+async function criarRodada(){
+  const nome=document.getElementById('rNome').value;
+  const camp=document.getElementById('rCamp').value;
+  const valor=document.getElementById('rValor').value;
+  const ini=document.getElementById('rIni').value;
+  const fim=document.getElementById('rFim').value;
+  const pixChave=document.getElementById('rPix').value;
+  const pixNome=document.getElementById('rPixNome').value;
+  const pixCidade=document.getElementById('rPixCidade').value;
+  if(!nome||!fim||!ini)return toast('Preencha nome, datas de início e encerramento',true);
+  const r=await api('POST',{acao:'criarRodada',nome_rodada:nome,data_inicio_apostas:ini,data_fim_apostas:fim,valor_aposta:parseFloat(valor)||10,campeonato:camp,pix_chave:pixChave,pix_nome:pixNome,pix_cidade:pixCidade});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){RODADA={id_rodada:r.dados.id_rodada,nome_rodada:nome,campeonato:camp,pix_chave:pixChave,pix_nome:pixNome,pix_cidade:pixCidade};fecharPainel('pnRodada');carregarRodada();
+    const whats='\u26bd *BOLAO BAR DO TECO*\n\n'+nome+'\n'+(camp||'')+' \u00b7 R$ '+(valor||10)+' por cartela\n\nApostas abertas!\nAcesse: https://boteco1985.github.io/tecobet/\n\n_Celebramos a amizade desde 1985_';
+    if(confirm('Rodada criada! Deseja compartilhar no WhatsApp?'))window.open('https://wa.me/?text='+encodeURIComponent(whats),'_blank');
+  }
+}
+
+async function carregarJogosCadastrados(){
+  // Load all rounds into selector
+  const rds=await api('GET',{acao:'getRodadas'});
+  const sel=document.getElementById('jRodSel');
+  if(rds.sucesso&&rds.dados.length){
+    TODASRODADAS=rds.dados;
+    sel.innerHTML='<option value="">-- Selecione a rodada --</option>';
+    rds.dados.forEach(rd=>{
+      const selected=(RODADA&&rd.id_rodada===RODADA.id_rodada)?' selected':'';
+      sel.innerHTML+='<option value="'+rd.id_rodada+'"'+selected+'>'+rd.nome_rodada+' ('+rd.campeonato+')</option>';
+    });
+    if(RODADA)selecionarRodadaJogo();
+  }else{sel.innerHTML='<option value="">Nenhuma rodada cadastrada</option>';document.getElementById('lstJogos').innerHTML=''}
+}
+
+function selecionarRodadaJogo(){
+  const id=document.getElementById('jRodSel').value;
+  if(!id){document.getElementById('rodadaIdJogo').textContent='';document.getElementById('rodadaCampJogo').textContent='';document.getElementById('lstJogos').innerHTML='';RODADA_JOGOS=null;return}
+  RODADA_JOGOS=TODASRODADAS.find(r=>r.id_rodada===id);
+  if(RODADA_JOGOS){
+    document.getElementById('rodadaIdJogo').textContent=RODADA_JOGOS.nome_rodada;
+    document.getElementById('rodadaCampJogo').textContent=RODADA_JOGOS.campeonato||'';
+    carregarJogosDaRodada(id);
+    carregarTimesDropdown(RODADA_JOGOS.campeonato);
+  }
+}
+
+async function carregarTimesDropdown(competicao){
+  const r=await api('GET',{acao:'getTimes',competicao:competicao||''});
+  const selCasa=document.getElementById('jCasa');
+  const selFora=document.getElementById('jFora');
+  if(r.sucesso&&r.dados.length){
+    var opts='<option value="">Selecione o time...</option>';
+    r.dados.forEach(function(t){
+      var code=getFlagCode(t.nome);
+      var prefix=code?'🏳 ':'';
+      opts+='<option value="'+t.nome+'">'+prefix+t.nome+'</option>';
+    });
+    selCasa.innerHTML=opts;selFora.innerHTML=opts;
+  }else{
+    selCasa.innerHTML='<option value="">Nenhum time cadastrado</option>';
+    selFora.innerHTML='<option value="">Nenhum time cadastrado</option>';
+  }
+}
+
+async function carregarJogosDaRodada(idRodada){
+  const r=await api('GET',{acao:'getJogos',id_rodada:idRodada});
+  if(r.sucesso&&r.dados.length){
+    let h='';
+    r.dados.forEach((j,i)=>{
+      h+=`<div class="game" style="display:flex;align-items:center;gap:8px"><div style="flex:1"><div class="game-meta"><span>${i+1}\u00ba</span></div><div style="text-align:center;font-weight:600">${j.time_casa} \u00d7 ${j.time_visitante}</div></div><button class="btn btn-sm" style="padding:6px 10px;font-size:11px;background:transparent;color:var(--red);border:1px solid rgba(255,107,107,.3)" onclick="excluirJogo('${j.id_jogo}','${idRodada}')">\ud83d\uddd1\ufe0f</button></div>`;
+    });
+    document.getElementById('lstJogos').innerHTML=h;
+  }else{document.getElementById('lstJogos').innerHTML='<div class="empty">Nenhum jogo cadastrado nesta rodada.</div>'}
+}
+
+async function excluirJogo(idJogo,idRodada){
+  if(!confirm('Excluir este jogo?\n\nPalpites ja registrados para este jogo serao ignorados no calculo do ranking.'))return;
+  const r=await api('POST',{acao:'removerJogo',id_jogo:idJogo});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso)carregarJogosDaRodada(idRodada);
+}
+
+
+async function addJogo(){
+  const rodSel=RODADA_JOGOS||RODADA;
+  if(!rodSel)return toast('Selecione uma rodada primeiro',true);
+  const casa=document.getElementById('jCasa').value,fora=document.getElementById('jFora').value,dt=document.getElementById('jData').value;
+  if(!casa||!fora)return toast('Preencha os times',true);
+  const r=await api('POST',{acao:'adicionarJogo',id_rodada:rodSel.id_rodada,time_casa:casa,time_visitante:fora,data_hora_jogo:dt||'',campeonato:rodSel.campeonato||''});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso){document.getElementById('jCasa').value='';document.getElementById('jFora').value='';document.getElementById('jData').value='';carregarJogosDaRodada(rodSel.id_rodada)}
+}
+
+async function carregarPagamentosPendentes(){
+  if(!RODADA)return document.getElementById('lstPgto').innerHTML='<div class="empty">Nenhuma rodada ativa.</div>';
+  const r=await api('GET',{acao:'getCartelasPendentes',id_rodada:RODADA.id_rodada});
+  if(r.sucesso&&r.dados.length){
+    let h='';
+    r.dados.forEach(c=>{h+='<div class="gest"><span class="gest-ic">🎫</span><div class="gest-info"><h3>'+c.nome_usuario+'</h3><p>Cartela: '+c.id_cartela.substring(0,12)+'...</p></div><button class="btn btn-sm" onclick="confirmarPgto(&#39;'+c.id_cartela+'&#39;)">Confirmar</button></div>'});
+    document.getElementById('lstPgto').innerHTML=h;
+  }else{document.getElementById('lstPgto').innerHTML='<div class="empty">Nenhuma cartela pendente 👍</div>'}
+}
+
+async function confirmarPgto(id){
+  const r=await api('POST',{acao:'confirmarPagamento',id_cartela:id,confirmado_por:USER.id_usuario});
+  toast(r.mensagem,!r.sucesso);
+  if(r.sucesso)carregarPagamentosPendentes();
+}
+
+async function carregarJogosResultados(){
+  if(!RODADA||!JOGOS.length){document.getElementById('lstResult').innerHTML='<div class="empty">Nenhum jogo na rodada.</div>';return}
+  const res=await api('GET',{acao:'getResultados',id_rodada:RODADA.id_rodada});
+  const resultados=res.sucesso?res.dados:[];
+  const mapaRes={};resultados.forEach(r=>{mapaRes[r.id_jogo]={c:r.gols_casa_real,v:r.gols_visitante_real}});
+  let h='';
+  JOGOS.forEach((j,i)=>{
+    const r=mapaRes[j.id_jogo]||{c:'',v:''};
+    h+='<div class="game"><div class="game-meta"><span>'+(i+1)+'º</span></div><div class="game-teams"><div class="g-t h"><span class="g-n">'+j.time_casa+'</span></div><div class="g-sc"><input class="g-in" id="rc_'+j.id_jogo+'" value="'+r.c+'" maxlength="2" inputmode="numeric"><span class="g-vs">×</span><input class="g-in" id="rv_'+j.id_jogo+'" value="'+r.v+'" maxlength="2" inputmode="numeric"></div><div class="g-t"><span class="g-n">'+j.time_visitante+'</span></div></div></div>';
+  });
+  document.getElementById('lstResult').innerHTML=h;
+  document.getElementById('btnSalvarResult').style.display='block';
+}
+
+async function salvarResultados(){
+  if(!RODADA)return;
+  const resultados=[];
+  JOGOS.forEach(j=>{
+    const c=document.getElementById('rc_'+j.id_jogo).value;
+    const v=document.getElementById('rv_'+j.id_jogo).value;
+    if(c!==''&&v!=='')resultados.push({id_jogo:j.id_jogo,gols_casa_real:parseInt(c),gols_visitante_real:parseInt(v),status_jogo:'Finalizado'});
+  });
+  if(!resultados.length)return toast('Preencha ao menos um resultado',true);
+  const r=await api('POST',{acao:'registrarResultadosLote',id_rodada:RODADA.id_rodada,resultados:resultados});
+  toast(r.mensagem,!r.sucesso);
+}
+
+async function calcularRanking(){
+  if(!RODADA)return toast('Nenhuma rodada ativa',true);
+  const r=await api('POST',{acao:'calcularRanking',id_rodada:RODADA.id_rodada});
+  if(r.sucesso){
+    toast(r.mensagem);
+    go('SR');
+  }else{toast(r.mensagem,true)}
+}
+
+// Init avatar grid
+var agrid=document.getElementById('avatarGrid');
+if(agrid){AVATARES.forEach(function(av){
+  var b=document.createElement('button');
+  b.type='button';b.textContent=av;
+  b.style.cssText='font-size:24px;width:40px;height:40px;border-radius:8px;border:2px solid var(--border);background:transparent;cursor:pointer';
+  b.onclick=function(){document.getElementById('cAvatar').value=av;agrid.querySelectorAll('button').forEach(function(x){x.style.borderColor='var(--border)'});b.style.borderColor='var(--gold)'};
+  if(av==='⚽')b.style.borderColor='var(--gold)';
+  agrid.appendChild(b);
+})}
+
+// Init - check session
+const saved=sessionStorage.getItem('user');
+if(saved){USER=JSON.parse(saved);document.getElementById('hGreet').textContent=(USER.avatar||'⚽')+' Salve, '+USER.nome.split(' ')[0]+' 👋';if(USER.perfil==='Gestor'||USER.perfil==='Organizador')document.getElementById('nbGest').style.display='';go('SA')}
+</script>
+</body>
+</html>
