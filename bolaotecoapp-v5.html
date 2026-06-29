@@ -2,6 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bolão Teco">
+<meta name="theme-color" content="#0c1017">
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkJvbMOjbyBCYXIgZG8gVGVjbyIsCiAgInNob3J0X25hbWUiOiAiQm9sw6NvIFRlY28iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBjMTAxNyIsCiAgInRoZW1lX2NvbG9yIjogIiMwYzEwMTciLAogICJpY29ucyI6IFt7InNyYyI6ICJpY29uLTE5Mi5wbmciLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3BuZyJ9XQp9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Bolão Bar do Teco</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
@@ -163,14 +170,14 @@ body.no-nav .bnav{display:none}
   <div style="font-size:12px;color:var(--t3);margin-bottom:14px;text-align:center">Confirme seus dados para criar uma nova senha</div>
   <label class="lbl">Celular</label><input class="inp" id="recCel" placeholder="(21) 99999-9999" inputmode="tel">
   <label class="lbl">Time que torce</label><input class="inp" id="recTime" placeholder="Ex: Flamengo">
-  <label class="lbl">Data de nascimento</label><input class="inp" id="recNasc" type="date">
+  <label class="lbl">Data de nascimento</label><input class="inp" id="recNasc" type="text" inputmode="numeric" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)">
   <label class="lbl">Nova senha</label><div style="position:relative"><input class="inp" id="recSen" placeholder="Nova senha" type="password" style="padding-right:48px"><button type="button" onclick="togglePwd('recSen',this)" style="position:absolute;right:12px;top:14px;background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer">👁</button></div>
   <button class="btn" onclick="recuperarSenha()">Redefinir Senha</button>
   <div class="l-link" style="margin-top:12px"><a onclick="showEl('frmRecup',false);showEl('frmLogin',true)">← Voltar ao login</a></div>
 </div>
 <div class="l-form" id="frmCad" style="display:none">
   <label class="lbl">Nome completo</label><input class="inp" id="cNome" placeholder="Seu nome">
-  <label class="lbl">Data de nascimento</label><input class="inp" id="cNasc" type="date">
+  <label class="lbl">Data de nascimento</label><input class="inp" id="cNasc" type="text" inputmode="numeric" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)">
   <label class="lbl">Time do coração</label><input class="inp" id="cTime" placeholder="Ex: Flamengo">
   <label class="lbl">Celular (WhatsApp)</label><input class="inp" id="cCel" placeholder="(21) 99999-9999" inputmode="tel">
   <label class="lbl">Criar senha</label><div style="position:relative"><input class="inp" id="cSen" placeholder="Mínimo 4 caracteres" type="password" style="padding-right:48px"><button type="button" onclick="togglePwd('cSen',this)" style="position:absolute;right:12px;top:14px;background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer">👁</button></div>
@@ -422,6 +429,11 @@ function teamIcon(name){
 // Toggle password visibility
 function togglePwd(id,btn){var i=document.getElementById(id);if(i.type==='password'){i.type='text';btn.textContent='\ud83d\ude48'}else{i.type='password';btn.textContent='\ud83d\udc41'}}
 
+
+// Date mask DD/MM/AAAA
+function maskDate(el){var v=el.value.replace(/\D/g,'');if(v.length>2)v=v.substring(0,2)+'/'+v.substring(2);if(v.length>5)v=v.substring(0,5)+'/'+v.substring(5,9);el.value=v}
+function convertDateBR(str){if(!str)return '';var p=str.split('/');if(p.length===3&&p[2].length===4)return p[2]+'-'+p[1]+'-'+p[0];return str}
+
 // Logout
 function doLogout(){sessionStorage.removeItem('user');USER=null;RODADA=null;JOGOS=[];document.getElementById('nbGest').style.display='none';document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on')});document.getElementById('SL').classList.add('on');document.body.classList.add('no-nav');window.scrollTo(0,0)}
 
@@ -457,7 +469,7 @@ async function salvarAvatar(){
 async function recuperarSenha(){
   var cel=document.getElementById('recCel').value.replace(/\D/g,'');
   var time=document.getElementById('recTime').value.trim();
-  var nasc=document.getElementById('recNasc').value;
+  var nasc=convertDateBR(document.getElementById('recNasc').value);
   var novaSenha=document.getElementById('recSen').value;
   if(!cel||!time||!nasc||!novaSenha)return toast('Preencha todos os campos',true);
   var r=await api('POST',{acao:'recuperarSenha',celular:cel,time_torce:time,data_nascimento:nasc,nova_senha:novaSenha});
@@ -609,7 +621,7 @@ async function checkPendentes(){
 }
 
 async function doCadastro(){
-  const dados={acao:'cadastro',nome:document.getElementById('cNome').value,data_nascimento:document.getElementById('cNasc').value,time_torce:document.getElementById('cTime').value,celular:document.getElementById('cCel').value.replace(/\D/g,''),senha:document.getElementById('cSen').value,avatar:document.getElementById('cAvatar').value};
+  const dados={acao:'cadastro',nome:document.getElementById('cNome').value,data_nascimento:convertDateBR(document.getElementById('cNasc').value),time_torce:document.getElementById('cTime').value,celular:document.getElementById('cCel').value.replace(/\D/g,''),senha:document.getElementById('cSen').value,avatar:document.getElementById('cAvatar').value};
   if(!dados.nome||!dados.celular||!dados.senha)return toast('Preencha todos os campos',true);
   const r=await api('POST',dados);
   toast(r.mensagem,!r.sucesso);
@@ -709,6 +721,7 @@ async function carregarDadosRodada(){
       document.getElementById('hPremio').textContent='R$ '+(pagas*RODADA.valor_aposta);
     }
     if(encerrada||!apostasPossiveis)carregarTodasApostas();
+    else if(USER&&(USER.perfil==='Gestor'||USER.perfil==='Organizador'))carregarTodasApostas();
     carregarMinhasCartelas();
   }
 }
@@ -812,20 +825,36 @@ async function carregarMinhasCartelas(){
   if(r.sucesso&&r.dados.length){
     document.getElementById('minhasCartelasArea').style.display='block';
     let h='';
+    var totalRes=Object.keys(RES_MAP).length;
+    var totalJogos=JOGOS.length;
+    var parcialOuFinal=totalRes>=totalJogos&&totalJogos>0?'Pontuação final':'Pontuação parcial';
     for(let ci=0;ci<r.dados.length;ci++){
       const c=r.dados[ci];
       const statusCor=c.status_pagamento==='Pago'?'var(--green)':'var(--gold)';
       const statusTxt=c.status_pagamento==='Pago'?'Pago':'Aguardando pgto';
-      h+='<div class="game" style="margin:0 20px 8px"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="font-size:13px">Cartela '+(ci+1)+'</strong><span style="font-size:11px;color:'+statusCor+';font-weight:600">'+statusTxt+'</span></div>';
       const p=await api('GET',{acao:'getPalpites',id_cartela:c.id_cartela});
+      var totalPts=0;
+      var palpiteHtml='';
       if(p.sucesso){
         p.dados.forEach(pal=>{
           const jogo=JOGOS.find(j=>j.id_jogo===pal.id_jogo);
           const casa=jogo?jogo.time_casa:'?';
           const fora=jogo?jogo.time_visitante:'?';
-          h+='<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--border)"><span>'+casa+' x '+fora+'</span><span style="font-weight:700">'+pal.gols_casa+' x '+pal.gols_visitante+'</span></div>';
+          var ptsLabel='';
+          var res=RES_MAP[pal.id_jogo];
+          if(res&&res.st==='Finalizado'){
+            var gc=Number(pal.gols_casa),gv=Number(pal.gols_visitante),rc=Number(res.c),rv=Number(res.v);
+            if(gc===rc&&gv===rv){totalPts+=5;ptsLabel='<span style="color:var(--green);font-weight:700;font-size:10px;margin-left:4px">5⚡</span>'}
+            else if((gc>gv&&rc>rv)||(gc<gv&&rc<rv)||(gc===gv&&rc===rv)){totalPts+=3;ptsLabel='<span style="color:var(--gold);font-weight:700;font-size:10px;margin-left:4px">3✓</span>'}
+            else{ptsLabel='<span style="color:var(--red);font-weight:700;font-size:10px;margin-left:4px">0✗</span>'}
+          }
+          palpiteHtml+='<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0;border-bottom:1px solid var(--border)"><span>'+casa+' x '+fora+'</span><span style="display:flex;align-items:center"><span style="font-weight:700">'+pal.gols_casa+' x '+pal.gols_visitante+'</span>'+ptsLabel+'</span></div>';
         });
       }
+      var ptsDisplay=totalRes>0?'<span style="font-size:12px;font-weight:700;color:var(--gold)">'+parcialOuFinal+': '+totalPts+' pts</span>':'';
+      h+='<div class="game" style="margin:0 20px 8px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="font-size:13px">Cartela '+(ci+1)+'</strong><span style="font-size:11px;color:'+statusCor+';font-weight:600">'+statusTxt+'</span></div>';
+      h+=palpiteHtml;
+      if(ptsDisplay)h+='<div style="text-align:right;padding-top:6px">'+ptsDisplay+'</div>';
       h+='</div>';
     }
     document.getElementById('lstMinhasCartelas').innerHTML=h;
@@ -891,10 +920,14 @@ async function carregarRanking(){
         totalGols+=gc+gv;
         if(gc===gv)empates++;else if(gc>gv)vitCasa++;else vitFora++;
         var diff=Math.abs(gc-gv);if(diff>maiorGol)maiorGol=diff;
-        var pl=gc+'×'+gv;placarFreq[pl]=(placarFreq[pl]||0)+1;
+        // Normalize: 1x0 and 0x1 are same pattern
+        var hi=Math.max(gc,gv),lo=Math.min(gc,gv);
+        var pl=hi+'×'+lo;placarFreq[pl]=(placarFreq[pl]||0)+1;
       });
       var placarTop=Object.entries(placarFreq).sort(function(a,b){return b[1]-a[1]})[0];
+      var media=(totalGols/resArr.length).toFixed(1);
       h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">⚽</span><span class="rk-nm">Total de gols</span><span class="rk-pts" style="margin-left:auto">'+totalGols+' gols em '+resArr.length+' jogos</span></div>';
+      h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">📈</span><span class="rk-nm">Média de gols por jogo</span><span class="rk-pts" style="margin-left:auto">'+media+'</span></div>';
       h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">📊</span><span class="rk-nm">Mandante × Visitante × Empate</span><span class="rk-pts" style="margin-left:auto">'+vitCasa+' × '+vitFora+' × '+empates+'</span></div>';
       if(placarTop)h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">🔥</span><span class="rk-nm">Placar mais frequente</span><span class="rk-pts" style="margin-left:auto">'+placarTop[0]+' ('+placarTop[1]+'x)</span></div>';
       if(maiorGol>0)h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">💥</span><span class="rk-nm">Maior diferença de gols</span><span class="rk-pts" style="margin-left:auto">'+maiorGol+' gol'+(maiorGol>1?'s':'')+'</span></div>';
@@ -913,7 +946,10 @@ async function carregarHistorico(){
     let totalPremio=0;r.dados.forEach(x=>totalPremio+=x.premio_total);
     h+='<div class="stat"><div>💰</div><div class="stat-v">R$ '+totalPremio+'</div><div class="stat-l">Distribuído</div></div>';
     h+='<div class="stat"><div>⚽</div><div class="stat-v">'+r.dados.length+'</div><div class="stat-l">Rodadas</div></div>';
-    h+='<div class="stat"><div>🏆</div><div class="stat-v">—</div><div class="stat-l">Campeões</div></div></div>';
+    var winC={};r.dados.forEach(function(rd){rd.vencedores.forEach(function(v){winC[v.nome]=(winC[v.nome]||0)+1})});
+    var topW=Object.entries(winC).sort(function(a,b){return b[1]-a[1]});
+    var topNm=topW.length?topW[0][0]+' ('+topW[0][1]+'x)':'—';
+    h+='<div class="stat"><div>🏆</div><div class="stat-v" style="font-size:14px">'+topNm+'</div><div class="stat-l">Maior Campeão</div></div></div>';
     h+='<div class="sec fi"><div class="sec-t">Rodadas Anteriores</div></div>';
     r.dados.forEach(rd=>{
       const venc=rd.vencedores.length?rd.vencedores.map(v=>{
@@ -1096,7 +1132,7 @@ async function carregarTimesDropdown(competicao){
   const selCasa=document.getElementById('jCasa');
   const selFora=document.getElementById('jFora');
   if(r.sucesso&&r.dados.length){
-    var opts='<option value="">Selecione o time...</option>';
+    var opts='<option value="">Selecione o time...</option><option value="A DEFINIR">⏳ A DEFINIR</option>';
     r.dados.forEach(function(t){
       var code=getFlagCode(t.nome);
       var prefix=code?'🏳 ':'';
@@ -1114,10 +1150,57 @@ async function carregarJogosDaRodada(idRodada){
   if(r.sucesso&&r.dados.length){
     let h='';
     r.dados.forEach((j,i)=>{
-      h+=`<div class="game" style="display:flex;align-items:center;gap:8px"><div style="flex:1"><div class="game-meta"><span>${i+1}\u00ba</span></div><div style="text-align:center;font-weight:600">${j.time_casa} \u00d7 ${j.time_visitante}</div></div><button class="btn btn-sm" style="padding:6px 10px;font-size:11px;background:transparent;color:var(--red);border:1px solid rgba(255,107,107,.3)" onclick="excluirJogo('${j.id_jogo}','${idRodada}')">\ud83d\uddd1\ufe0f</button></div>`;
+      var dt=j.data_hora_jogo?new Date(j.data_hora_jogo).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+      var ic=teamIcon(j.time_casa),iv=teamIcon(j.time_visitante);
+      h+=`<div class="game" style="margin:0 0 6px"><div class="game-meta"><span>${i+1}\u00ba</span><span>${dt}</span></div><div style="text-align:center;font-weight:600;font-size:13px">${ic}${j.time_casa} \u00d7 ${j.time_visitante}${iv}</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px"><button class="btn btn-sm" style="padding:5px 12px;font-size:11px;background:transparent;color:var(--t2);border:1px solid var(--border)" onclick="editarJogo('${j.id_jogo}','${idRodada}')">✏️ Editar</button><button class="btn btn-sm" style="padding:5px 12px;font-size:11px;background:transparent;color:var(--red);border:1px solid rgba(255,107,107,.3)" onclick="excluirJogo('${j.id_jogo}','${idRodada}')">🗑️ Excluir</button></div></div>`;
     });
     document.getElementById('lstJogos').innerHTML=h;
   }else{document.getElementById('lstJogos').innerHTML='<div class="empty">Nenhum jogo cadastrado nesta rodada.</div>'}
+}
+
+var JOGO_EDITANDO=null;
+
+function editarJogo(idJogo,idRodada){
+  // Find the game data
+  api('GET',{acao:'getJogos',id_rodada:idRodada}).then(function(r){
+    if(!r.sucesso)return;
+    var jogo=r.dados.find(function(j){return j.id_jogo===idJogo});
+    if(!jogo)return toast('Jogo não encontrado',true);
+    JOGO_EDITANDO={id_jogo:idJogo,id_rodada:idRodada};
+    document.getElementById('jCasa').value=jogo.time_casa;
+    document.getElementById('jFora').value=jogo.time_visitante;
+    if(jogo.data_hora_jogo){
+      try{document.getElementById('jData').value=toLocalInput(jogo.data_hora_jogo)}catch(e){}
+    }
+    // Change button to save edit
+    var btnArea=document.querySelector('#pnJogos .btn[onclick="addJogo()"]');
+    if(btnArea){
+      btnArea.textContent='Salvar Edição';
+      btnArea.onclick=function(){salvarEdicaoJogo()};
+    }
+    window.scrollTo(0,document.getElementById('pnJogos').offsetTop);
+    toast('Editando jogo: '+jogo.time_casa+' × '+jogo.time_visitante);
+  });
+}
+
+async function salvarEdicaoJogo(){
+  if(!JOGO_EDITANDO)return;
+  // Delete old game and create new one
+  await api('POST',{acao:'removerJogo',id_jogo:JOGO_EDITANDO.id_jogo});
+  var rodSel=RODADA_JOGOS||RODADA;
+  var casa=document.getElementById('jCasa').value;
+  var fora=document.getElementById('jFora').value;
+  var dt=document.getElementById('jData').value;
+  var r=await api('POST',{acao:'adicionarJogo',id_rodada:JOGO_EDITANDO.id_rodada,time_casa:casa,time_visitante:fora,data_hora_jogo:dt||'',campeonato:rodSel?rodSel.campeonato:''});
+  toast(r.sucesso?'Jogo atualizado!':'Erro ao atualizar',!r.sucesso);
+  // Reset form
+  JOGO_EDITANDO=null;
+  document.getElementById('jCasa').value='';
+  document.getElementById('jFora').value='';
+  document.getElementById('jData').value='';
+  var btnArea=document.querySelector('#pnJogos .btn');
+  if(btnArea){btnArea.textContent='Adicionar Jogo';btnArea.onclick=function(){addJogo()}}
+  carregarJogosDaRodada(JOGO_EDITANDO?JOGO_EDITANDO.id_rodada:(rodSel?rodSel.id_rodada:''));
 }
 
 async function excluirJogo(idJogo,idRodada){
