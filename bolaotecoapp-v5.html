@@ -194,7 +194,7 @@ body.no-nav .bnav{display:none}
 <div id="SA" class="scr pb80">
 <div class="header">
   <div><div class="h-pre">Bolão</div><div class="h-title">Bar do Teco</div><div class="h-greet" id="hGreet" style="cursor:pointer" onclick="abrirTrocaAvatar()"></div></div>
-  <div style="display:flex;align-items:center;gap:8px"><div class="h-prize"><span>Prêmio</span><strong id="hPremio">—</strong></div><button onclick="doLogout()" style="background:none;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:16px;cursor:pointer;padding:6px 8px" title="Sair">🚪</button></div>
+  <div style="display:flex;align-items:center;gap:8px"><div class="h-prize"><span>Prêmio</span><strong id="hPremio">—</strong></div><button onclick="go('SI')" style="background:none;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:16px;cursor:pointer;padding:6px 8px" title="Informações">ℹ️</button><button onclick="doLogout()" style="background:none;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:16px;cursor:pointer;padding:6px 8px" title="Sair">🚪</button></div>
 </div>
 <div id="rodadaSeletor" style="display:none;padding:8px 20px">
   <select class="inp" id="selRodadaAtiva" onchange="selecionarRodadaPalpite()" style="margin:0;font-weight:600;text-align:center"></select>
@@ -222,8 +222,7 @@ body.no-nav .bnav{display:none}
   <div style="margin:0 20px 10px;font-size:13px;color:var(--t3);text-align:center">Apostas encerradas. Confira os palpites de todos:</div>
   <div id="lstTodasApostas"></div>
   <div class="btn-area" style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn" style="flex:1;background:var(--green);font-size:14px" onclick="compartilharWhatsApp()">📱 WhatsApp</button>
-    <button class="btn" style="flex:1;font-size:14px" onclick="baixarTxtApostas()">📄 Baixar arquivo</button>
+    <button class="btn" style="flex:1;font-size:14px" onclick="baixarTxtApostas()">📄 Baixar apostas</button>
   </div>
 </div>
 <div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
@@ -233,6 +232,7 @@ body.no-nav .bnav{display:none}
 <div id="SR" class="scr pb80">
 <div class="tbar"><button class="bk" onclick="go('SA')">←</button><h1>Tabela dos Melhores</h1></div>
 <div id="rankArea"><div class="empty">Ranking não disponível ainda.</div></div>
+<div class="btn-area" style="display:flex;gap:8px"><button class="btn" style="flex:1;font-size:14px" onclick="compartilharRanking()">📱 Compartilhar Ranking</button><button class="btn" style="flex:1;font-size:14px;background:transparent;color:var(--t2);border:1.5px solid var(--border)" onclick="baixarRanking()">📄 Baixar</button></div>
 <div class="foot">AQUI, A AMIZADE É SEMPRE CAMPEÃ</div>
 </div>
 
@@ -337,6 +337,8 @@ body.no-nav .bnav{display:none}
   <label class="lbl">Selecionar Rodada</label>
   <select class="inp" id="jRodSel" onchange="selecionarRodadaJogo()"><option value="">Carregando rodadas...</option></select>
   <div id="rodadaIdJogo" class="msg"></div>
+  <label class="lbl" style="margin-top:10px">Filtrar times por competição</label>
+  <select class="inp" id="jCompFiltro" onchange="filtrarTimesPorComp()"><option value="">Carregando...</option></select>
   <div id="rodadaCampJogo" style="text-align:center;font-size:13px;color:var(--gold);font-weight:600;margin:-8px 0 14px"></div>
   <label class="lbl">Time da Casa</label><select class="inp" id="jCasa"><option value="">Selecione o time...</option></select>
   <label class="lbl">Time Visitante</label><select class="inp" id="jFora"><option value="">Selecione o time...</option></select>
@@ -368,6 +370,122 @@ body.no-nav .bnav{display:none}
 <div id="avatarModalGrid" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px"></div>
 <button class="btn" onclick="salvarAvatar()" style="font-size:14px;padding:12px">Salvar Avatar</button>
 </div></div>
+
+<!-- ===== SOBRE / INFO ===== -->
+<div id="SI" class="scr pb80">
+<div class="tbar"><button class="bk" onclick="go('SA')">←</button><h1>Informações do Bolão</h1></div>
+<div style="padding:16px 20px;font-size:14px;line-height:1.7;color:var(--t2)">
+
+<div style="font-size:18px;font-weight:700;color:var(--t1);margin-bottom:12px">⚽ Bem-vindo ao Bolão Bar do Teco!</div>
+<p style="margin-bottom:16px">Aqui a gente se diverte tentando acertar os resultados dos jogos. É simples, é divertido e o mais importante: é entre amigos!</p>
+
+<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">📱 Como participar</div>
+<p>1. Na tela de login, clique em <strong>"Pede pra entrar"</strong></p>
+<p>2. Preencha seus dados (nome, celular, time, senha)</p>
+<p>3. Aguarde o gestor aprovar seu cadastro</p>
+<p>4. Depois de aprovado, faça login com seu celular e senha</p>
+<p style="margin-top:8px">Se esqueceu a senha, clique em <strong>"Esqueci minha senha"</strong> na tela de login. Informe seu celular, o time que torce e sua data de nascimento pra criar uma senha nova.</p>
+
+<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">🎯 Como apostar</div>
+<p>1. No menu <strong>Palpite</strong>, escolha a rodada aberta</p>
+<p>2. Preencha o placar que você acha que vai dar em cada jogo</p>
+<p>3. Clique em <strong>"Cravar Palpite"</strong></p>
+<p>4. Faça o pagamento via PIX (o QR Code aparece após cravar)</p>
+<p>5. Você pode fazer quantos palpites quiser! Cada palpite é uma cartela e cada cartela custa o valor da rodada</p>
+<p style="margin-top:8px"><strong>Atenção:</strong> Seu palpite só vale depois que o gestor confirmar o pagamento!</p>
+
+<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">⚡ Sistema de Pontuação</div>
+<p>Para cada jogo, você ganha pontos de acordo com o quanto acertou:</p>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:20px">⚡</span><div><strong style="color:var(--green)">5 pontos — Acertou o placar na mosca!</strong><br><span style="font-size:12px;color:var(--t3)">Exemplo: Você apostou 2×1 e deu 2×1</span></div></div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:20px">🎯</span><div><strong style="color:var(--blue)">4 pontos — Acertou quem ganhou E a diferença de gols</strong><br><span style="font-size:12px;color:var(--t3)">Exemplo: Você apostou 3×1 (diferença de 2 gols) e deu 2×0 (diferença de 2 gols também). Não acertou o placar, mas chegou bem perto!</span></div></div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:20px">✓</span><div><strong style="color:var(--gold)">3 pontos — Acertou quem ganhou (ou que deu empate)</strong><br><span style="font-size:12px;color:var(--t3)">Exemplo: Você apostou 3×0 e deu 1×0. Sabia que o time da casa ganhava, mas errou o placar e a diferença de gols</span></div></div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:20px">👀</span><div><strong style="color:var(--t2)">1 ponto — Errou o resultado, mas acertou os gols de um dos times</strong><br><span style="font-size:12px;color:var(--t3)">Exemplo: Você apostou 1×2 e deu 1×0. Errou quem ganhou, mas acertou que um time fez 1 gol</span></div></div>
+
+<div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px">✗</span><div><strong style="color:var(--red)">0 pontos — Errou tudo</strong><br><span style="font-size:12px;color:var(--t3)">Faz parte! Na próxima vai! 😄</span></div></div>
+</div>
+
+<p style="margin-top:8px"><strong>Em caso de empate no jogo:</strong> Vale o acerto do placar (5 pts) ou do resultado/empate (3 pts). As categorias de 4 pts e 1 pt só valem quando um time vence.</p>
+
+<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">🏆 Como funciona a premiação</div>
+<p>O prêmio da rodada é formado pelas cartelas pagas. Exemplo: 24 cartelas de R$ 10 = R$ 240 de prêmio.</p>
+<p style="margin-top:8px">O prêmio é dividido entre os <strong>3 primeiros colocados</strong>:</p>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="margin-bottom:8px">🥇 <strong>1º lugar</strong> → 70% do prêmio</div>
+<div style="margin-bottom:8px">🥈 <strong>2º lugar</strong> → 20% do prêmio</div>
+<div style="margin-bottom:4px">🥉 <strong>3º lugar</strong> → 10% do prêmio</div>
+</div>
+
+<p style="margin-top:12px"><strong>Veja como funciona na prática (prêmio de R$ 300):</strong></p>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:6px">Situação 1 — Sem empate:</div>
+<p style="font-size:13px">🥇 João (1º) leva 70% = <strong>R$ 210</strong></p>
+<p style="font-size:13px">🥈 Maria (2º) leva 20% = <strong>R$ 60</strong></p>
+<p style="font-size:13px">🥉 Pedro (3º) leva 10% = <strong>R$ 30</strong></p>
+</div>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 2 — Dois empatados em 1º:</div>
+<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João e Maria empatam com a mesma pontuação no topo. Eles dividem os prêmios de 1º + 2º (70% + 20% = 90%):</p>
+<p style="font-size:13px">🥇 João (1º) leva 90% ÷ 2 = <strong>R$ 135</strong></p>
+<p style="font-size:13px">🥇 Maria (1º) leva 90% ÷ 2 = <strong>R$ 135</strong></p>
+<p style="font-size:13px">🥉 Pedro (3º) leva 10% = <strong>R$ 30</strong></p>
+</div>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 3 — Três ou mais empatados em 1º:</div>
+<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João, Maria e Pedro empatam no topo. Dividem o prêmio total entre os três:</p>
+<p style="font-size:13px">🥇 João (1º) leva 100% ÷ 3 = <strong>R$ 100</strong></p>
+<p style="font-size:13px">🥇 Maria (1º) leva 100% ÷ 3 = <strong>R$ 100</strong></p>
+<p style="font-size:13px">🥇 Pedro (1º) leva 100% ÷ 3 = <strong>R$ 100</strong></p>
+<p style="font-size:13px;color:var(--t3);margin-top:4px">Nesse caso, ninguém mais recebe prêmio.</p>
+</div>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 4 — Dois empatados em 2º:</div>
+<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João vence sozinho, mas Maria e Pedro empatam em segundo. Eles dividem os prêmios de 2º + 3º (20% + 10% = 30%):</p>
+<p style="font-size:13px">🥇 João (1º) leva 70% = <strong>R$ 210</strong></p>
+<p style="font-size:13px">🥈 Maria (2º) leva 30% ÷ 2 = <strong>R$ 45</strong></p>
+<p style="font-size:13px">🥈 Pedro (2º) leva 30% ÷ 2 = <strong>R$ 45</strong></p>
+</div>
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 5 — Dois ou mais empatados em 3º:</div>
+<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João é 1º, Maria é 2º, mas Pedro e Ana empatam em terceiro. Dividem o prêmio do 3º:</p>
+<p style="font-size:13px">🥇 João (1º) leva 70% = <strong>R$ 210</strong></p>
+<p style="font-size:13px">🥈 Maria (2º) leva 20% = <strong>R$ 60</strong></p>
+<p style="font-size:13px">🥉 Pedro (3º) leva 10% ÷ 2 = <strong>R$ 15</strong></p>
+<p style="font-size:13px">🥉 Ana (3º) leva 10% ÷ 2 = <strong>R$ 15</strong></p>
+</div>
+
+<p style="margin-top:8px;font-size:13px;color:var(--t3)"><strong>Resumindo:</strong> os empatados sempre dividem igualmente os prêmios das posições que ocupam. No máximo 3 faixas de premiação.</p>
+
+<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">💳 Pagamento do Prêmio</div>
+<p>O pagamento do prêmio será realizado <strong>após 12 horas</strong> do encerramento da rodada.</p>
+<p style="margin-top:8px">Esse prazo existe para que todos os participantes tenham a oportunidade de:</p>
+<p>• Conferir os resultados dos jogos</p>
+<p>• Verificar se a pontuação foi calculada corretamente</p>
+<p>• Apontar qualquer inconsistência ao gestor</p>
+<p style="margin-top:8px">Se houver qualquer dúvida ou divergência, fale com o gestor do bolão pelo grupo do WhatsApp antes do prazo de 12 horas.</p>
+
+<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">📋 Entendendo os menus</div>
+<p><strong>⚽ Palpite</strong> — Onde você faz suas apostas e acompanha os resultados</p>
+<p><strong>🏆 Ranking</strong> — A classificação dos jogadores na rodada</p>
+<p><strong>📜 Memórias</strong> — Histórico de todas as rodadas passadas</p>
+<p><strong>🗞️ Balcão</strong> — Links úteis sobre futebol</p>
+
+<div style="text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--t3)">
+<p>🍺 Bar do Teco — Celebramos a amizade desde 1985</p>
+<p style="margin-top:4px">Aqui, a amizade é sempre campeã! 🏆</p>
+</div>
+</div>
+</div>
 
 <!-- Nav -->
 <div class="bnav">
@@ -421,9 +539,24 @@ function getClubColors(name){var n=name.toUpperCase();return CORES_CLUBES[n]||CO
 function teamIcon(name){
   var code=getFlagCode(name);
   if(code)return '<img src="https://flagcdn.com/w40/'+code+'.png" style="width:24px;height:16px;border-radius:2px;vertical-align:middle;margin:0 3px;border:1px solid rgba(255,255,255,.15)" alt="'+name+'">';
+  var n=name.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   var c=getClubColors(name);
-  if(c)return '<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,'+c[0]+' 50%,'+c[1]+' 50%);border:1px solid rgba(255,255,255,.15);vertical-align:middle;margin:0 3px"></span>';
-  return '';
+  var fb=c?'this.outerHTML=\x27<span style=display:inline-block;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,'+c[0]+' 50%,'+c[1]+' 50%);border:1px_solid_rgba(255,255,255,.15);vertical-align:middle;margin:0_3px></span>\x27':'this.style.display=\x27none\x27';
+  return '<img src="https://boteco1985.github.io/tecobet/'+encodeURIComponent(n)+'.png" style="width:24px;height:24px;border-radius:4px;vertical-align:middle;margin:0 3px;object-fit:contain" onerror="'+fb+'" alt="'+name+'">';
+}
+
+
+// Format currency BR
+function fmtMoeda(v){if(!v&&v!==0)return 'R$ 0';v=Number(v);return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:2})}
+
+// Calculate points for new 5/4/3/1/0 system
+function calcPts(gc,gv,rc,rv){
+  if(gc===rc&&gv===rv)return{pts:5,icon:'⚡',cor:'var(--green)',label:'5 pts'};
+  var rp=(gc>gv?'c':gc<gv?'v':'e'),rr=(rc>rv?'c':rc<rv?'v':'e');
+  if(rp===rr&&(gc-gv)===(rc-rv))return{pts:4,icon:'🎯',cor:'var(--blue)',label:'4 pts'};
+  if(rp===rr)return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
+  if(gc===rc||gv===rv)return{pts:1,icon:'👀',cor:'var(--t3)',label:'1 pt'};
+  return{pts:0,icon:'✗',cor:'var(--red)',label:'0 pts'};
 }
 
 // Toggle password visibility
@@ -705,7 +838,7 @@ async function carregarDadosRodada(){
   var statusHtml='<div class="status'+(apostasPossiveis?'':' status-closed')+'"><div class="status-dot"></div>'+RODADA.nome_rodada+(apostasPossiveis?' · Apostas abertas':' · Apostas encerradas')+'</div>';
   statusHtml+=(RODADA.campeonato?'<div style="text-align:center;font-size:12px;color:var(--gold);font-weight:600;margin:-8px 0 4px">'+RODADA.campeonato+' · R$ '+RODADA.valor_aposta+' por cartela</div>':'');
   if(deadlineInfo)statusHtml+='<div style="text-align:center;font-size:11px;color:var(--t3);margin:0 0 6px">⏰ '+deadlineInfo+'</div>';
-  statusHtml+='<div style="display:flex;justify-content:center;gap:12px;margin:4px 20px 8px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;font-weight:600"><span style="color:var(--green)">⚡ Placar: 5 pts</span><span style="color:var(--gold)">✓ Resultado: 3 pts</span><span style="color:var(--red)">✗ Errou: 0 pt</span></div>';
+  statusHtml+='<div style="display:flex;justify-content:center;gap:12px;margin:4px 20px 8px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;font-weight:600"><span style="color:var(--green)">⚡5</span><span style="color:var(--blue)">🎯4</span><span style="color:var(--gold)">✓3</span><span style="color:var(--t3)">👀1</span><span style="color:var(--red)">✗0</span><span style="font-size:10px;color:var(--t3);margin-left:4px">ℹ️</span></div>';
   document.getElementById('rodadaStatus').innerHTML=statusHtml;
   // Load games
   var j=await api('GET',{acao:'getJogos',id_rodada:RODADA.id_rodada});
@@ -718,7 +851,7 @@ async function carregarDadosRodada(){
     var c=await api('GET',{acao:'getCartelas',id_rodada:RODADA.id_rodada});
     if(c.sucesso){
       var pagas=c.dados.filter(function(x){return x.status_pagamento==='Pago'}).length;
-      document.getElementById('hPremio').textContent='R$ '+(pagas*RODADA.valor_aposta);
+      document.getElementById('hPremio').textContent=fmtMoeda(pagas*RODADA.valor_aposta);
     }
     if(encerrada||!apostasPossiveis)carregarTodasApostas();
     else if(USER&&(USER.perfil==='Gestor'||USER.perfil==='Organizador'))carregarTodasApostas();
@@ -746,19 +879,27 @@ async function carregarTodasApostas(){
       h+='<div class="game" style="margin:0 20px 8px"><div style="font-weight:700;margin-bottom:8px;color:var(--gold)">👤 '+cartela.nome_usuario+numLabel+'</div>';
       txt+='👤 *'+cartela.nome_usuario+numLabel+'*\n';
       cartela.palpites.forEach(p=>{
-        var ptsLabel='';
+        var ptsLabel='';var ptsVal=0;
         var res=RES_MAP[p.id_jogo];
         if(res&&res.st==='Finalizado'){
-          var gc=Number(p.gols_casa),gv=Number(p.gols_visitante),rc=Number(res.c),rv=Number(res.v);
-          if(gc===rc&&gv===rv){ptsLabel='<span style="color:var(--green);font-weight:700;font-size:11px;margin-left:6px">5 pts ⚡</span>'}
-          else if((gc>gv&&rc>rv)||(gc<gv&&rc<rv)||(gc===gv&&rc===rv)){ptsLabel='<span style="color:var(--gold);font-weight:700;font-size:11px;margin-left:6px">3 pts ✓</span>'}
-          else{ptsLabel='<span style="color:var(--red);font-weight:700;font-size:11px;margin-left:6px">0 pts ✗</span>'}
+          var r=calcPts(Number(p.gols_casa),Number(p.gols_visitante),Number(res.c),Number(res.v));
+          ptsLabel='<span style="color:'+r.cor+';font-weight:700;font-size:11px;margin-left:6px">'+r.label+' '+r.icon+'</span>';
+          ptsVal=r.pts;
         }
         h+='<div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:3px 0;border-bottom:1px solid var(--border)"><span>'+p.time_casa+' × '+p.time_visitante+'</span><span style="display:flex;align-items:center"><span style="font-weight:700;color:var(--t1)">'+p.gols_casa+' × '+p.gols_visitante+'</span>'+ptsLabel+'</span></div>';
         txt+='   '+p.time_casa+' '+p.gols_casa+' × '+p.gols_visitante+' '+p.time_visitante+'\n';
       });
+      // Calculate total for this cartela
+      var cartTotal=0;
+      cartela.palpites.forEach(function(pp){
+        var rr=RES_MAP[pp.id_jogo];
+        if(rr&&rr.st==='Finalizado'){cartTotal+=calcPts(Number(pp.gols_casa),Number(pp.gols_visitante),Number(rr.c),Number(rr.v)).pts}
+      });
+      var totRes=Object.values(RES_MAP).filter(function(x){return x.st==='Finalizado'}).length;
+      var totLabel=totRes>=JOGOS.length&&JOGOS.length>0?'Pontuação final':'Pontuação parcial';
+      if(totRes>0)h+='<div style="text-align:right;padding-top:4px;font-size:12px;font-weight:700;color:var(--gold)">'+totLabel+': '+cartTotal+' pts</div>';
       h+='</div>';
-      txt+='\n';
+      txt+='   Total: '+cartTotal+' pts\n\n';
     });
     txt+='━━━━━━━━━━━━━━━━━━━━\n';
     txt+='💰 Total: '+r.dados.length+' cartelas\n';
@@ -844,9 +985,7 @@ async function carregarMinhasCartelas(){
           var res=RES_MAP[pal.id_jogo];
           if(res&&res.st==='Finalizado'){
             var gc=Number(pal.gols_casa),gv=Number(pal.gols_visitante),rc=Number(res.c),rv=Number(res.v);
-            if(gc===rc&&gv===rv){totalPts+=5;ptsLabel='<span style="color:var(--green);font-weight:700;font-size:10px;margin-left:4px">5⚡</span>'}
-            else if((gc>gv&&rc>rv)||(gc<gv&&rc<rv)||(gc===gv&&rc===rv)){totalPts+=3;ptsLabel='<span style="color:var(--gold);font-weight:700;font-size:10px;margin-left:4px">3✓</span>'}
-            else{ptsLabel='<span style="color:var(--red);font-weight:700;font-size:10px;margin-left:4px">0✗</span>'}
+            var cp=calcPts(gc,gv,rc,rv);totalPts+=cp.pts;ptsLabel='<span style="color:'+cp.cor+';font-weight:700;font-size:10px;margin-left:4px">'+cp.pts+cp.icon+'</span>'
           }
           palpiteHtml+='<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0;border-bottom:1px solid var(--border)"><span>'+casa+' x '+fora+'</span><span style="display:flex;align-items:center"><span style="font-weight:700">'+pal.gols_casa+' x '+pal.gols_visitante+'</span>'+ptsLabel+'</span></div>';
         });
@@ -895,7 +1034,7 @@ async function carregarRanking(){
     h+='</div>';
     // Full ranking list
     h+='<div class="sec"><div class="sec-t">Classificação Completa</div></div>';
-    rk.forEach(r=>{h+='<div class="rank-item"><span class="rk-pos">'+r.posicao+'º</span><span class="rk-nm">'+r.nome+'</span><span style="font-size:11px;color:var(--t3);margin-left:4px">'+r.acertos_placar+'⚡ '+r.acertos_resultado+'✓</span><span class="rk-pts" style="margin-left:auto">'+r.total_pontos+' <span>pts</span></span></div>'});
+    rk.forEach(r=>{var premioTag=Number(r.premio)>0?'<span style="font-size:10px;color:var(--green);margin-left:6px">💰 R$ '+r.premio+'</span>':'';h+='<div class="rank-item"><span class="rk-pos">'+r.posicao+'º</span><span class="rk-nm">'+r.nome+'</span><span style="font-size:10px;color:var(--t3);margin-left:4px">'+(r.acertos_placar||0)+'⚡'+(r.acertos_saldo||0)+'🎯'+(r.acertos_resultado||0)+'✓'+(r.acertos_gols||0)+'👀</span><span class="rk-pts" style="margin-left:auto">'+r.total_pontos+' <span>pts</span></span>'+premioTag+'</div>'});
     // Curiosidades (item 8)
     h+='<div class="sec" style="margin-top:16px"><div class="sec-t">Curiosidades da Rodada</div></div>';
     const topPlacar=[...rk].sort((a,b)=>b.acertos_placar-a.acertos_placar);
@@ -932,10 +1071,39 @@ async function carregarRanking(){
       if(placarTop)h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">🔥</span><span class="rk-nm">Placar mais frequente</span><span class="rk-pts" style="margin-left:auto">'+placarTop[0]+' ('+placarTop[1]+'x)</span></div>';
       if(maiorGol>0)h+='<div class="rank-item"><span style="font-size:16px;width:28px;text-align:center">💥</span><span class="rk-nm">Maior diferença de gols</span><span class="rk-pts" style="margin-left:auto">'+maiorGol+' gol'+(maiorGol>1?'s':'')+'</span></div>';
     }
+    RANKING_TEXTO=gerarTextoRanking(rk);
     document.getElementById('rankArea').innerHTML=h;
   }else{
     document.getElementById('rankArea').innerHTML='<div class="empty">Ranking não calculado ainda.</div>';
   }
+}
+
+// ===== RANKING SHARE =====
+var RANKING_TEXTO='';
+function gerarTextoRanking(rk){
+  var t='🏆 *BOLÃO BAR DO TECO*\n'+RODADA.nome_rodada+(RODADA.campeonato?' - '+RODADA.campeonato:'')+'\n';
+  t+='━━━━━━━━━━━━━━━━━━━━\n\n';
+  rk.forEach(function(r){
+    var medal=r.posicao===1?'🥇':r.posicao===2?'🥈':r.posicao===3?'🥉':'  ';
+    t+=medal+' '+r.posicao+'º '+r.nome+' - '+r.total_pontos+' pts';
+    if(Number(r.premio)>0)t+=' 💰 R$ '+r.premio;
+    t+='\n';
+  });
+  t+='\n━━━━━━━━━━━━━━━━━━━━\n';
+  t+='_Celebramos a amizade desde 1985_ 🍺';
+  return t;
+}
+function compartilharRanking(){
+  if(!RANKING_TEXTO)return toast('Ranking não disponível',true);
+  window.open('https://wa.me/?text='+encodeURIComponent(RANKING_TEXTO),'_blank');
+}
+function baixarRanking(){
+  if(!RANKING_TEXTO)return toast('Ranking não disponível',true);
+  var blob=new Blob([RANKING_TEXTO],{type:'text/plain;charset=utf-8'});
+  var u=URL.createObjectURL(blob);var a=document.createElement('a');
+  a.href=u;a.download='ranking-'+(RODADA?RODADA.nome_rodada.replace(/\s/g,'-'):'rodada')+'.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(u);toast('Arquivo baixado!');
 }
 
 // ===== HISTÓRICO =====
@@ -967,10 +1135,22 @@ async function carregarHistorico(){
 }
 
 // ===== GESTÃO =====
+function preencherPixUltimaRodada(){
+  if(TODASRODADAS.length>0){
+    var last=TODASRODADAS[TODASRODADAS.length-1];
+    if(last.pix_chave&&!document.getElementById('rPix').value){
+      document.getElementById('rPix').value=last.pix_chave;
+      document.getElementById('rPixNome').value=last.pix_nome||'';
+      document.getElementById('rPixCidade').value=last.pix_cidade||'';
+    }
+  }
+}
+
 function abrirPainel(id){
   showEl('gestMenu',false);
   document.getElementById(id).className='panel on';
   if(id==='pnUsuarios')carregarUsuariosPendentes();
+  if(id==='pnRodada')preencherPixUltimaRodada();
   if(id==='pnJogos')carregarJogosCadastrados();
   if(id==='pnPgto')carregarPagamentosPendentes();
   if(id==='pnResult')carregarJogosResultados();
@@ -1123,8 +1303,24 @@ function selecionarRodadaJogo(){
     document.getElementById('rodadaIdJogo').textContent=RODADA_JOGOS.nome_rodada;
     document.getElementById('rodadaCampJogo').textContent=RODADA_JOGOS.campeonato||'';
     carregarJogosDaRodada(id);
+    // Populate competition selector
+    api('GET',{acao:'getTimes'}).then(function(rt){
+      if(rt.sucesso){
+        var comps={};rt.dados.forEach(function(t){comps[t.competicao]=1});
+        var sel=document.getElementById('jCompFiltro');
+        sel.innerHTML='<option value="">Todos os times</option>';
+        Object.keys(comps).sort().forEach(function(c){
+          sel.innerHTML+='<option value="'+c+'"'+(c===RODADA_JOGOS.campeonato?' selected':'')+'>'+c+'</option>';
+        });
+      }
+    });
     carregarTimesDropdown(RODADA_JOGOS.campeonato);
   }
+}
+
+function filtrarTimesPorComp(){
+  var comp=document.getElementById('jCompFiltro').value;
+  carregarTimesDropdown(comp);
 }
 
 async function carregarTimesDropdown(competicao){
