@@ -563,8 +563,13 @@ function fmtMoeda(v){if(!v&&v!==0)return 'R$ 0';v=Number(v);return 'R$ '+v.toLoc
 function calcPts(gc,gv,rc,rv){
   if(gc===rc&&gv===rv)return{pts:5,icon:'⚡',cor:'var(--green)',label:'5 pts'};
   var rp=(gc>gv?'c':gc<gv?'v':'e'),rr=(rc>rv?'c':rc<rv?'v':'e');
-  if(rp===rr&&(gc-gv)===(rc-rv))return{pts:4,icon:'🎯',cor:'var(--blue)',label:'4 pts'};
-  if(rp===rr)return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
+  if(rp===rr){
+    // For draws: only 5 (exact) or 3 (correct result), no 4pts
+    if(rr==='e')return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
+    // For wins: check goal difference
+    if((gc-gv)===(rc-rv))return{pts:4,icon:'🎯',cor:'var(--blue)',label:'4 pts'};
+    return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
+  }
   if(gc===rc||gv===rv)return{pts:1,icon:'👀',cor:'var(--t3)',label:'1 pt'};
   return{pts:0,icon:'✗',cor:'var(--red)',label:'0 pts'};
 }
