@@ -164,6 +164,7 @@ body.no-nav .bnav{display:none}
   <button class="btn" onclick="doLogin()">Entrar</button>
   <div class="l-link">Primeiro acesso? <a onclick="showEl('frmLogin',false);showEl('frmCad',true)">Pede pra entrar</a></div>
   <div class="l-link" style="margin-top:8px"><a onclick="showEl('frmLogin',false);showEl('frmRecup',true)">Esqueci minha senha</a></div>
+  <div class="l-link" style="margin-top:12px"><a href="#" onclick="event.preventDefault();document.getElementById('loginInfo').style.display=document.getElementById('loginInfo').style.display==='none'?'block':'none'">ℹ️ Regras e Informações do Bolão</a></div>
 </div>
 <div class="l-form" id="frmRecup" style="display:none">
   <div style="font-size:15px;font-weight:600;margin-bottom:14px;text-align:center">Recuperar Senha</div>
@@ -186,6 +187,18 @@ body.no-nav .bnav{display:none}
   <div id="avatarGrid" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px"></div>
   <button class="btn" onclick="doCadastro()">Solicitar Cadastro</button>
   <div class="l-link"><a onclick="showEl('frmCad',false);showEl('frmLogin',true)">← Voltar ao login</a></div>
+</div>
+<div id="loginInfo" style="display:none;margin:16px 0;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:13px;line-height:1.6;color:var(--t2);max-height:400px;overflow-y:auto">
+<div style="font-size:15px;font-weight:700;color:var(--gold);margin-bottom:10px">⚽ Regras do Bolão</div>
+<p><strong>Como participar:</strong> Clique em "Pede pra entrar", preencha seus dados e aguarde a aprovação.</p>
+<p style="margin-top:8px"><strong>Como apostar:</strong> No menu Palpite, preencha o placar de cada jogo e clique em "Cravar Palpite". Faça o pagamento via PIX.</p>
+<p style="margin-top:8px"><strong>Pontuação:</strong></p>
+<p>⚡ <strong style="color:var(--green)">5 pontos</strong> — Acertou o placar exato</p>
+<p>✓ <strong style="color:var(--gold)">3 pontos</strong> — Acertou quem ganhou ou que empatou</p>
+<p>✗ <strong style="color:var(--red)">0 pontos</strong> — Errou</p>
+<p style="margin-top:8px"><strong>Premiação:</strong> O primeiro colocado leva todo o prêmio. Em caso de empate, o prêmio é dividido igualmente entre os empatados.</p>
+<p style="margin-top:8px"><strong>Pagamento do prêmio:</strong> 12 horas após o fim da rodada.</p>
+<p style="margin-top:8px;font-size:11px;color:var(--t3)">Para mais detalhes, faça login e toque no ℹ️ dentro do app.</p>
 </div>
 <div class="l-foot"><a href="https://chat.whatsapp.com/FvnEBqcAchs7E3psFyRYop" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600;font-size:13px">📱 Entrar no grupo do WhatsApp</a><br><span style="margin-top:6px;display:inline-block">Aqui, a amizade é sempre campeã</span></div>
 </div>
@@ -395,86 +408,31 @@ body.no-nav .bnav{display:none}
 <p style="margin-top:8px"><strong>Atenção:</strong> Seu palpite só vale depois que o gestor confirmar o pagamento!</p>
 
 <div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">⚡ Sistema de Pontuação</div>
-<p>Para cada jogo, quanto mais perto do resultado, mais pontos você ganha:</p>
+<p>Para cada jogo, a pontuação funciona assim:</p>
 
 <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="margin-bottom:14px"><span style="font-size:20px">⚡</span> <strong style="color:var(--green)">5 pontos — Acertou o placar na mosca!</strong><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 2×1 e o placar foi exatamente 2×1. Show!</span></div>
+<div style="margin-bottom:14px"><span style="font-size:20px">⚡</span> <strong style="color:var(--green)">5 pontos — Acertou o placar na mosca!</strong><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 2×1 e o placar foi exatamente 2×1. Parabéns, craque!</span></div>
 
-<div style="margin-bottom:14px"><span style="font-size:20px">🎯</span> <strong style="color:var(--blue)">4 pontos — Cravou o vencedor, errou o placar, mas acertou a diferença de gols!</strong><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 3×1 (2 gols de diferença)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Placar: 2×0 (2 gols de diferença também!)</span></div>
-
-<div style="margin-bottom:14px"><span style="font-size:20px">✓</span> <strong style="color:var(--gold)">3 pontos — Acertou quem ganhou ou que deu empate, mas errou o placar</strong><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 3×0 e deu 1×0. Sabia que o mandante ganhava!</span><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 2×2 e deu 1×1. Sabia que ia empatar!</span></div>
-
-<div style="margin-bottom:14px"><span style="font-size:20px">👀</span> <strong style="color:var(--t2)">1 ponto — Errou quase tudo, mas acertou os gols de um dos times!</strong><br><span style="font-size:13px;color:var(--t3)">→ Ex1: Apostou 1×2 e deu 1×0.<br>&nbsp;&nbsp;&nbsp;O visitante não venceu como você apostou, mas o mandante fez 1 gol como você previu. 1 pontinho pra não chorar!</span><br><span style="font-size:13px;color:var(--t3)">→ Ex2: Apostou 1×2 e deu 3×2.<br>&nbsp;&nbsp;&nbsp;O mandante levou, mas você acertou os gols do visitante. 1 pontinho pra ajudar!</span></div>
+<div style="margin-bottom:14px"><span style="font-size:20px">✓</span> <strong style="color:var(--gold)">3 pontos — Acertou quem ganhou ou que deu empate</strong><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 3×0 e deu 1×0. Sabia que o mandante ganhava!</span><br><span style="font-size:13px;color:var(--t3)">→ Ex: Apostou 2×2 e deu 1×1. Sabia que ia empatar!</span></div>
 
 <div><span style="font-size:20px">✗</span> <strong style="color:var(--red)">0 pontos — Errou tudo</strong><br><span style="font-size:13px;color:var(--t3)">Faz parte! Na próxima melhora! 😄</span></div>
 </div>
 
-<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">🚫 Jogos Cancelados ou Adiados</div>
-<p>Às vezes um jogo pode ser cancelado ou adiado por chuva, questões de segurança ou outros motivos.</p>
-<p style="margin-top:8px"><strong>Fique tranquilo:</strong> quando isso acontece, o jogo aparece marcado no app com um aviso claro. Jogo cancelado ou adiado <strong>não conta na pontuação</strong>. Ninguém ganha nem perde pontos por um jogo que não aconteceu.</p>
-<p style="margin-top:8px">🚫 <strong>Cancelado</strong> — o jogo não vai mais acontecer. É ignorado na rodada.</p>
-<p>⏳ <strong>Adiado</strong> — o jogo foi remarcado pra outra data. Se for pra data próxima, pode continuar na rodada. Se for pra uma data distante, será tratado como cancelado pra não segurar o prêmio de todo mundo.</p>
-
-<div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">⏱️ Prorrogação e Pênaltis</div>
-<p>Em algumas fases da competição, quando o jogo termina empatado, pode ter prorrogação e até disputa de pênaltis.</p>
-<p style="margin-top:8px"><strong>No nosso bolão, só vale o placar do tempo regulamentar</strong> — ou seja, os 90 minutos de jogo (mais os acréscimos do juiz).</p>
-<p style="margin-top:8px">Gols marcados na prorrogação ou na disputa de pênaltis <strong>não contam</strong> pra pontuação do bolão.</p>
-<p style="margin-top:8px;font-size:13px;color:var(--t3)"><strong>Exemplo:</strong> O jogo terminou 1×1 no tempo regulamentar. Na prorrogação, ficou 2×1. Nos pênaltis, 5×3. O placar que vale pro bolão é <strong>1×1</strong> (o do tempo regulamentar).</p>
-
 <div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">🏆 Como funciona a premiação</div>
-<p>O prêmio da rodada é formado pelas cartelas pagas. Exemplo: 24 cartelas de R$ 10 = R$ 240 de prêmio.</p>
-<p style="margin-top:8px">O prêmio é dividido entre os <strong>3 primeiros colocados</strong>:</p>
+<p>O prêmio da rodada é formado pelas cartelas pagas. Exemplo: 30 cartelas de R$ 10 = R$ 300 de prêmio.</p>
+<p style="margin-top:8px"><strong>O primeiro colocado leva todo o prêmio!</strong></p>
 
 <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="margin-bottom:8px">🥇 <strong>1º lugar</strong> → 70% do prêmio</div>
-<div style="margin-bottom:8px">🥈 <strong>2º lugar</strong> → 20% do prêmio</div>
-<div style="margin-bottom:4px">🥉 <strong>3º lugar</strong> → 10% do prêmio</div>
-</div>
-
-<p style="margin-top:12px"><strong>Veja como funciona na prática (prêmio de R$ 300):</strong></p>
-
-<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:6px">Situação 1 — Sem empate:</div>
-<p style="font-size:13px">🥇 João (1º) leva 70% = <strong>R$ 210</strong></p>
-<p style="font-size:13px">🥈 Maria (2º) leva 20% = <strong>R$ 60</strong></p>
-<p style="font-size:13px">🥉 Pedro (3º) leva 10% = <strong>R$ 30</strong></p>
+<div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:6px">Sem empate:</div>
+<p style="font-size:13px">🥇 O primeiro colocado leva <strong>100%</strong> do prêmio.</p>
 </div>
 
 <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 2 — Dois empatados em 1º:</div>
-<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João e Maria empatam com a mesma pontuação no topo. Eles dividem os prêmios de 1º + 2º (70% + 20% = 90%):</p>
-<p style="font-size:13px">🥇 João (1º) leva 90% ÷ 2 = <strong>R$ 135</strong></p>
-<p style="font-size:13px">🥇 Maria (1º) leva 90% ÷ 2 = <strong>R$ 135</strong></p>
-<p style="font-size:13px">🥉 Pedro (3º) leva 10% = <strong>R$ 30</strong></p>
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Em caso de empate:</div>
+<p style="font-size:13px">Se dois ou mais jogadores terminam empatados em primeiro lugar, o prêmio é <strong>dividido igualmente</strong> entre eles.</p>
+<p style="font-size:13px;margin-top:8px;color:var(--t3)">→ Ex: 2 empatam em 1º com prêmio de R$ 300 → cada um leva R$ 150</p>
+<p style="font-size:13px;color:var(--t3)">→ Ex: 3 empatam em 1º com prêmio de R$ 300 → cada um leva R$ 100</p>
 </div>
-
-<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 3 — Três ou mais empatados em 1º:</div>
-<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João, Maria e Pedro empatam no topo. Dividem o prêmio total entre os três:</p>
-<p style="font-size:13px">🥇 João (1º) leva 100% ÷ 3 = <strong>R$ 100</strong></p>
-<p style="font-size:13px">🥇 Maria (1º) leva 100% ÷ 3 = <strong>R$ 100</strong></p>
-<p style="font-size:13px">🥇 Pedro (1º) leva 100% ÷ 3 = <strong>R$ 100</strong></p>
-<p style="font-size:13px;color:var(--t3);margin-top:4px">Nesse caso, ninguém mais recebe prêmio.</p>
-</div>
-
-<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 4 — Dois empatados em 2º:</div>
-<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João vence sozinho, mas Maria e Pedro empatam em segundo. Eles dividem os prêmios de 2º + 3º (20% + 10% = 30%):</p>
-<p style="font-size:13px">🥇 João (1º) leva 70% = <strong>R$ 210</strong></p>
-<p style="font-size:13px">🥈 Maria (2º) leva 30% ÷ 2 = <strong>R$ 45</strong></p>
-<p style="font-size:13px">🥈 Pedro (2º) leva 30% ÷ 2 = <strong>R$ 45</strong></p>
-</div>
-
-<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:12px 0">
-<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">Situação 5 — Dois ou mais empatados em 3º:</div>
-<p style="font-size:13px;color:var(--t3);margin-bottom:6px">João é 1º, Maria é 2º, mas Pedro e Ana empatam em terceiro. Dividem o prêmio do 3º:</p>
-<p style="font-size:13px">🥇 João (1º) leva 70% = <strong>R$ 210</strong></p>
-<p style="font-size:13px">🥈 Maria (2º) leva 20% = <strong>R$ 60</strong></p>
-<p style="font-size:13px">🥉 Pedro (3º) leva 10% ÷ 2 = <strong>R$ 15</strong></p>
-<p style="font-size:13px">🥉 Ana (3º) leva 10% ÷ 2 = <strong>R$ 15</strong></p>
-</div>
-
-<p style="margin-top:8px;font-size:13px;color:var(--t3)"><strong>Resumindo:</strong> os empatados sempre dividem igualmente os prêmios das posições que ocupam. No máximo 3 faixas de premiação.</p>
 
 <div style="font-size:16px;font-weight:700;color:var(--gold);margin:20px 0 10px">💳 Pagamento do Prêmio</div>
 <p>O pagamento do prêmio será realizado <strong>após 12 horas</strong> do encerramento da rodada.</p>
@@ -559,18 +517,11 @@ function teamIcon(name){
 // Format currency BR
 function fmtMoeda(v){if(!v&&v!==0)return 'R$ 0';v=Number(v);return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:2})}
 
-// Calculate points for new 5/4/3/1/0 system
+// Calculate points - system 5/3/0
 function calcPts(gc,gv,rc,rv){
   if(gc===rc&&gv===rv)return{pts:5,icon:'⚡',cor:'var(--green)',label:'5 pts'};
   var rp=(gc>gv?'c':gc<gv?'v':'e'),rr=(rc>rv?'c':rc<rv?'v':'e');
-  if(rp===rr){
-    // For draws: only 5 (exact) or 3 (correct result), no 4pts
-    if(rr==='e')return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
-    // For wins: check goal difference
-    if((gc-gv)===(rc-rv))return{pts:4,icon:'🎯',cor:'var(--blue)',label:'4 pts'};
-    return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
-  }
-  if(gc===rc||gv===rv)return{pts:1,icon:'👀',cor:'var(--t3)',label:'1 pt'};
+  if(rp===rr)return{pts:3,icon:'✓',cor:'var(--gold)',label:'3 pts'};
   return{pts:0,icon:'✗',cor:'var(--red)',label:'0 pts'};
 }
 
@@ -853,7 +804,7 @@ async function carregarDadosRodada(){
   var statusHtml='<div class="status'+(apostasPossiveis?'':' status-closed')+'"><div class="status-dot"></div>'+RODADA.nome_rodada+(apostasPossiveis?' · Apostas abertas':' · Apostas encerradas')+'</div>';
   statusHtml+=(RODADA.campeonato?'<div style="text-align:center;font-size:12px;color:var(--gold);font-weight:600;margin:-8px 0 4px">'+RODADA.campeonato+' · R$ '+RODADA.valor_aposta+' por cartela</div>':'');
   if(deadlineInfo)statusHtml+='<div style="text-align:center;font-size:11px;color:var(--t3);margin:0 0 6px">⏰ '+deadlineInfo+'</div>';
-  statusHtml+='<div style="display:flex;justify-content:center;gap:12px;margin:4px 20px 8px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;font-weight:600"><span style="color:var(--green)">⚡5</span><span style="color:var(--blue)">🎯4</span><span style="color:var(--gold)">✓3</span><span style="color:var(--t3)">👀1</span><span style="color:var(--red)">✗0</span><span style="font-size:10px;color:var(--t3);margin-left:4px">ℹ️</span></div>';
+  statusHtml+='<div style="display:flex;justify-content:center;gap:12px;margin:4px 20px 8px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;font-weight:600"><span style="color:var(--green)">⚡ Placar: 5 pts</span><span style="color:var(--gold)">✓ Resultado: 3 pts</span><span style="color:var(--red)">✗ Errou: 0</span></div>';
   document.getElementById('rodadaStatus').innerHTML=statusHtml;
   // Load games
   var j=await api('GET',{acao:'getJogos',id_rodada:RODADA.id_rodada});
@@ -1053,7 +1004,7 @@ async function carregarRanking(){
     h+='</div>';
     // Full ranking list
     h+='<div class="sec"><div class="sec-t">Classificação Completa</div></div>';
-    rk.forEach(r=>{var premioTag=Number(r.premio)>0?'<span style="font-size:10px;color:var(--green);margin-left:6px">💰 R$ '+r.premio+'</span>':'';h+='<div class="rank-item"><span class="rk-pos">'+r.posicao+'º</span><span class="rk-nm">'+r.nome+'</span><span style="font-size:10px;color:var(--t3);margin-left:4px">'+(r.acertos_placar||0)+'⚡'+(r.acertos_saldo||0)+'🎯'+(r.acertos_resultado||0)+'✓'+(r.acertos_gols||0)+'👀</span><span class="rk-pts" style="margin-left:auto">'+r.total_pontos+' <span>pts</span></span>'+premioTag+'</div>'});
+    rk.forEach(r=>{var premioTag=Number(r.premio)>0?'<span style="font-size:10px;color:var(--green);margin-left:6px">💰 '+fmtMoeda(r.premio)+'</span>':'';h+='<div class="rank-item"><span class="rk-pos">'+r.posicao+'º</span><span class="rk-nm">'+r.nome+'</span><span style="font-size:10px;color:var(--t3);margin-left:4px">'+(r.acertos_placar||0)+'⚡ '+(r.acertos_resultado||0)+'✓</span><span class="rk-pts" style="margin-left:auto">'+r.total_pontos+' <span>pts</span></span>'+premioTag+'</div>'});
     // Curiosidades (item 8)
     h+='<div class="sec" style="margin-top:16px"><div class="sec-t">Curiosidades da Rodada</div></div>';
     const topPlacar=[...rk].sort((a,b)=>b.acertos_placar-a.acertos_placar);
@@ -1131,7 +1082,7 @@ async function carregarHistorico(){
   if(r.sucesso&&r.dados.length){
     let h='<div class="stats-grid">';
     let totalPremio=0;r.dados.forEach(x=>totalPremio+=x.premio_total);
-    h+='<div class="stat"><div>💰</div><div class="stat-v">R$ '+totalPremio+'</div><div class="stat-l">Distribuído</div></div>';
+    h+='<div class="stat"><div>💰</div><div class="stat-v">'+fmtMoeda(totalPremio)+'</div><div class="stat-l">Distribuído</div></div>';
     h+='<div class="stat"><div>⚽</div><div class="stat-v">'+r.dados.length+'</div><div class="stat-l">Rodadas</div></div>';
     var winC={};r.dados.forEach(function(rd){rd.vencedores.forEach(function(v){winC[v.nome]=(winC[v.nome]||0)+1})});
     var topW=Object.entries(winC).sort(function(a,b){return b[1]-a[1]});
@@ -1145,7 +1096,7 @@ async function carregarHistorico(){
         return s;
       }).join(', '):'—';
       const pts=rd.vencedores.length?rd.vencedores[0].pontos:'—';
-      h+='<div class="hist"><div class="hist-top"><div style="display:flex;align-items:center;gap:8px"><span class="hist-rnd">'+rd.nome_rodada+'</span></div><span class="hist-pr">R$ '+rd.premio_total+'</span></div><div class="hist-win"><span>🏆</span><span class="hist-wn">'+venc+'</span><span class="hist-wp">'+pts+' pts</span></div><div class="hist-meta"><span>👥 '+rd.total_cartelas+' cartelas</span><span>⚽ '+rd.total_jogos+' jogos</span></div></div>';
+      h+='<div class="hist"><div class="hist-top"><div style="display:flex;align-items:center;gap:8px"><span class="hist-rnd">'+rd.nome_rodada+'</span></div><span class="hist-pr">'+fmtMoeda(rd.premio_total)+'</span></div><div class="hist-win"><span>🏆</span><span class="hist-wn">'+venc+'</span><span class="hist-wp">'+pts+' pts</span></div><div class="hist-meta"><span>👥 '+rd.total_cartelas+' cartelas</span><span>⚽ '+rd.total_jogos+' jogos</span></div></div>';
     });
     document.getElementById('histArea').innerHTML=h;
   }else{
